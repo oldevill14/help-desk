@@ -1,215 +1,2334 @@
-SET foreign_key_checks = 0;
+-- phpMyAdmin SQL Dump
+-- version 5.2.1
+-- https://www.phpmyadmin.net/
+--
+-- Host: 127.0.0.1
+-- Generation Time: Jan 18, 2024 at 05:43 AM
+-- Server version: 10.4.28-MariaDB
+-- PHP Version: 8.1.17
 
-INSERT INTO `users` (`id`, `name`, `email`, `email_verified_at`, `password`, `remember_token`, `created_at`,
-                     `updated_at`, `register_token`, `deleted_at`)
-VALUES (4, 'Dark Vador', 'darkvador@gmail.com', NULL, '$2y$10$4f8HPTwKhVzpAP5kas6PN.VP5TlJrgZ0nEcbhrnk6OFtkiUA9czbK',
-        'OHEZUT3JTudVaM98f52WUSEIBYt2iFVe4x3fIIh5ppc6mbLQkfcvdd7g7Rcq', '2022-09-09 20:04:18', '2022-09-12 14:43:54',
-        NULL, NULL),
-       (5, 'John DOE', 'johndoe@gmail.com', NULL, '$2y$10$dhwupOVEiVsQpQZeSIJhWutsBYF8pde7/BTViD5j9f8c1CregT9Gq', NULL,
-        '2022-09-11 14:37:09', '2022-09-12 11:39:04', NULL, NULL),
-       (6, 'Jane DOE', 'janedoe@gmail.com', NULL, '$2y$10$l1pWnJh2iUDttzLLlmG5weeTNT7O/UAwsWnPrD8XH8yszCzrhFh82', NULL,
-        '2022-09-11 14:48:37', '2022-09-11 15:08:21', NULL, NULL),
-       (10, 'Thomas Edison', 'thomasedison@gmail.com', NULL,
-        '$2y$10$MR51TVg3xzUXs308oTxp8.Pw9sjs7ijaeGYLJZsq85CdY/azYD0bG', NULL, '2022-09-11 15:31:51',
-        '2022-09-11 15:31:55', '82c93eba-9a33-4dbe-abac-22f11f5c1f54', NULL);
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+START TRANSACTION;
+SET time_zone = "+00:00";
 
-INSERT INTO `projects` (`id`, `name`, `description`, `owner_id`, `deleted_at`, `created_at`, `updated_at`,
-                        `ticket_prefix`)
-VALUES (1, 'Default project',
-        '<p>This is the default project to associate to any created ticket that are not related to any other projects.</p>',
-        4, NULL, '2022-09-11 16:29:08', '2022-09-11 16:35:48', 'DEFP'),
-       (2, 'IDEAO', '<p>Project for managing tickets linked to the IDEAO project</p>', 4, NULL, '2022-09-11 17:09:31',
-        '2022-09-11 17:12:47', 'IDEA'),
-       (3, 'Arena job', '<p>Project for managing tickets linked to the Arena job project</p>', 4, NULL,
-        '2022-09-11 17:13:05', '2022-09-11 17:13:17', 'ARJO'),
-       (4, 'ARP', '<p>Project for managing tickets linked to the ARP project</p>', 5, NULL, '2022-09-11 17:13:25',
-        '2022-09-11 17:15:04', 'ARPT');
 
-INSERT INTO `favorite_projects` (`id`, `user_id`, `project_id`, `created_at`, `updated_at`)
-VALUES (6, 4, 2, '2022-09-11 17:09:33', '2022-09-11 17:09:33'),
-       (9, 4, 4, '2022-09-11 17:20:53', '2022-09-11 17:20:53'),
-       (10, 5, 4, '2022-09-11 17:30:49', '2022-09-11 17:30:49'),
-       (11, 4, 1, '2022-09-12 11:50:42', '2022-09-12 11:50:42');
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8mb4 */;
 
-INSERT INTO `tickets` (`id`, `title`, `content`, `status`, `priority`, `owner_id`, `responsible_id`, `deleted_at`,
-                       `created_at`, `updated_at`, `project_id`, `type`, `number`)
-VALUES (2, 'Cannot access the platform',
-        '<p>Hello,</p><p>I cannot access the platform with the credentials received by email.</p><p>Can you see what is the problem, please?</p><p>Thanks</p>',
-        'validated', 'highest', 4, 5, NULL, '2022-09-11 18:27:55', '2022-09-12 11:48:00', 1, 'bug', '0001'),
-       (3, 'Design enhancement', '<p>Add a logo of the company to the login page.</p>', 'created', 'low', 5, 4, NULL,
-        '2022-09-11 18:45:55', '2022-09-12 13:08:05', 2, 'improvement', '0001'),
-       (4, 'Quiz wizard', '<p>Add a wizard system to the quiz page</p>', 'created', 'normal', 4, NULL, NULL,
-        '2022-09-11 20:37:14', '2022-09-11 20:37:14', 2, 'improvement', '0002'),
-       (9, 'Internal error - Login page',
-        '<p>We got an internal error when we visit the login page (url: /auth/login)</p>', 'created', 'highest', 5, 4,
-        NULL, '2022-09-11 20:58:37', '2022-09-12 13:08:12', 4, 'bug', '0001');
+--
+-- Database: `help_desk`
+--
 
-INSERT INTO `comments` (`id`, `owner_id`, `ticket_id`, `content`, `deleted_at`, `created_at`, `updated_at`)
-VALUES (1, 4, 2, '<p>Hello,</p><p>We are working on it, I let you know ASAP.</p><p>Best regards.</p>', NULL,
-        '2022-09-12 09:40:33', '2022-09-12 14:23:36'),
-       (5, 4, 2,
-        '<p>FYI</p><p>We have reproduced the error, and we are working on it.</p><p><figure data-trix-attachment=\"{&quot;contentType&quot;:&quot;image&quot;,&quot;height&quot;:683,&quot;url&quot;:&quot;https://i.stack.imgur.com/nwIvJ.png&quot;,&quot;width&quot;:532}\" data-trix-content-type=\"image\" data-trix-attributes=\"{&quot;caption&quot;:&quot;Error while accessing with valid credentials&quot;}\" class=\"attachment attachment--preview\"><img src=\"https://i.stack.imgur.com/nwIvJ.png\" width=\"532\" height=\"683\"><figcaption class=\"attachment__caption attachment__caption--edited\">Error while accessing with valid credentials</figcaption></figure></p>',
-        NULL, '2022-09-12 09:54:44', '2022-09-12 14:15:56'),
-       (9, 5, 2, '<p>A fix has been deployed.</p><p>Can you please test it and let me know.</p><p>Best regards.</p>',
-        NULL, '2022-09-12 11:47:38', '2022-09-12 14:15:56'),
-       (10, 4, 2, '<p>Hello,</p><p>The fix is working good.&nbsp;</p><p>Thanks.</p>', NULL, '2022-09-12 11:48:13',
-        '2022-09-12 14:43:08');
+-- --------------------------------------------------------
 
-INSERT INTO `ticket_priorities` (`id`, `title`, `text_color`, `bg_color`, `icon`, `deleted_at`, `created_at`,
-                                 `updated_at`, `slug`)
-VALUES (1, 'Lowest', '#dcfce7', '#22c55e', 'fa-arrow-down', NULL, '2022-09-19 10:29:52', '2022-09-19 11:30:57',
-        'lowest'),
-       (2, 'Low', '#10b981', '#d1fae5', 'fa-angle-down', NULL, '2022-09-19 10:32:24', '2022-09-19 11:30:57', 'low'),
-       (3, 'Normal', '#6b7280', '#f3f4f6', 'fa-minus', NULL, '2022-09-19 10:32:50', '2022-09-19 11:30:57', 'normal'),
-       (4, 'High', '#f97316', '#ffedd5', 'fa-angle-up', NULL, '2022-09-19 10:37:09', '2022-09-19 11:30:57', 'high'),
-       (5, 'Highest', '#ef4444', '#fee2e2', 'fa-arrow-up', NULL, '2022-09-19 10:37:37', '2022-09-19 11:41:39',
-        'highest');
+--
+-- Table structure for table `activity_log`
+--
 
-INSERT INTO `ticket_statuses` (`id`, `title`, `text_color`, `bg_color`, `default`, `deleted_at`, `created_at`,
-                               `updated_at`, `slug`)
-VALUES (1, 'Created', '#6b7280', '#f3f4f6', 1, NULL, '2022-09-19 09:17:50', '2022-09-19 11:30:48', 'created'),
-       (2, 'In progress', '#0ea5e9', '#e0f2fe', 0, NULL, '2022-09-19 09:19:17', '2022-09-19 11:30:48', 'in_progress'),
-       (3, 'Done', '#f97316', '#ffedd5', 0, NULL, '2022-09-19 09:21:17', '2022-09-19 11:30:48', 'done'),
-       (4, 'Validated', '#22c55e', '#dcfce7', 0, NULL, '2022-09-19 09:21:29', '2022-09-19 11:30:48', 'validated'),
-       (5, 'Rejected', '#ef4444', '#fee2e2', 0, NULL, '2022-09-19 09:21:41', '2022-09-19 11:30:48', 'rejected');
+CREATE TABLE `activity_log` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `log_name` varchar(255) DEFAULT NULL,
+  `description` text NOT NULL,
+  `subject_type` varchar(255) DEFAULT NULL,
+  `event` varchar(255) DEFAULT NULL,
+  `subject_id` bigint(20) UNSIGNED DEFAULT NULL,
+  `causer_type` varchar(255) DEFAULT NULL,
+  `causer_id` bigint(20) UNSIGNED DEFAULT NULL,
+  `properties` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL CHECK (json_valid(`properties`)),
+  `batch_uuid` char(36) DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
-INSERT INTO `ticket_types` (`id`, `title`, `text_color`, `bg_color`, `icon`, `deleted_at`, `created_at`, `updated_at`,
-                            `slug`)
-VALUES (1, 'Improvement', '#dbeafe', '#3b82f6', 'fa-arrow-up', NULL, '2022-09-19 10:29:52', '2022-09-19 11:31:04',
-        'improvement'),
-       (2, 'New feature', '#10b981', '#d1fae5', 'fa-plus-square-o', NULL, '2022-09-19 10:32:24', '2022-09-19 11:31:04',
-        'new-feature'),
-       (4, 'Task', '#f97316', '#ffedd5', 'fa-check-square-o', NULL, '2022-09-19 10:37:09', '2022-09-19 11:31:04',
-        'task'),
-       (5, 'Bug', '#ef4444', '#fee2e2', 'fa-bug', NULL, '2022-09-19 10:37:37', '2022-09-19 11:31:04', 'bug');
+-- --------------------------------------------------------
 
-INSERT INTO `companies` (`id`, `name`, `logo`, `description`, `is_disabled`, `responsible_id`, `deleted_at`,
-                         `created_at`, `updated_at`)
-VALUES (1, 'Google', null,
-        '<p>Google is an American technology services company founded in 1998 in Silicon Valley, California, by Larry Page and Sergey Brin, creators of the Google search engine. It has been a subsidiary of the Alphabet company since August 2015.</p>',
-        0, 4, NULL, '2022-09-24 23:31:50', '2022-09-24 23:44:50'),
-       (2, 'Meta', null,
-        '<p>Meta Platforms, Inc., better known by the trade name Meta, is an American company created in 2004 by Mark Zuckerberg. It is one of the giants of the Web, grouped under the acronym GAFAM, alongside Google, Apple, Amazon and Microsoft.</p>',
-        1, 5, NULL, '2022-09-24 23:46:26', '2022-09-24 23:46:47');
+--
+-- Table structure for table `chats`
+--
 
-TRUNCATE TABLE model_has_roles;
-INSERT INTO `model_has_roles` (`role_id`, `model_type`, `model_id`)
-VALUES (1, 'App\\Models\\User', 4),
-       (2, 'App\\Models\\User', 5),
-       (3, 'App\\Models\\User', 6);
+CREATE TABLE `chats` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `message` longtext NOT NULL,
+  `ticket_id` bigint(20) UNSIGNED NOT NULL,
+  `user_id` bigint(20) UNSIGNED NOT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
-TRUNCATE TABLE permissions;
-INSERT INTO `permissions` (`id`, `name`, `guard_name`, `created_at`, `updated_at`)
-VALUES (1, 'View all projects', 'web', '2022-09-25 14:51:10', '2022-09-25 14:51:10'),
-       (2, 'Update all projects', 'web', '2022-09-25 14:51:10', '2022-09-25 14:51:10'),
-       (3, 'Delete all projects', 'web', '2022-09-25 14:51:10', '2022-09-25 14:51:10'),
-       (4, 'Create projects', 'web', '2022-09-25 14:51:10', '2022-09-25 14:51:10'),
-       (5, 'View own projects', 'web', '2022-09-25 14:51:10', '2022-09-25 14:51:10'),
-       (6, 'Update own projects', 'web', '2022-09-25 14:51:10', '2022-09-25 14:51:10'),
-       (7, 'Delete own projects', 'web', '2022-09-25 14:51:10', '2022-09-25 14:51:10'),
-       (8, 'View all tickets', 'web', '2022-09-25 14:51:10', '2022-09-25 14:51:10'),
-       (9, 'Update all tickets', 'web', '2022-09-25 14:51:10', '2022-09-25 14:51:10'),
-       (10, 'Delete all tickets', 'web', '2022-09-25 14:51:10', '2022-09-25 14:51:10'),
-       (11, 'Create tickets', 'web', '2022-09-25 14:51:10', '2022-09-25 14:51:10'),
-       (12, 'View own tickets', 'web', '2022-09-25 14:51:10', '2022-09-25 14:51:10'),
-       (13, 'Update own tickets', 'web', '2022-09-25 14:51:10', '2022-09-25 14:51:10'),
-       (14, 'Delete own tickets', 'web', '2022-09-25 14:51:10', '2022-09-25 14:51:10'),
-       (15, 'Assign tickets', 'web', '2022-09-25 14:51:10', '2022-09-25 14:51:10'),
-       (16, 'Change status tickets', 'web', '2022-09-25 14:51:10', '2022-09-25 14:51:10'),
-       (17, 'Can view Analytics page', 'web', '2022-09-25 15:32:37', '2022-09-25 15:32:37'),
-       (18, 'Can view Tickets page', 'web', '2022-09-25 15:32:37', '2022-09-25 15:32:37'),
-       (19, 'Can view Kanban page', 'web', '2022-09-25 15:32:37', '2022-09-25 15:32:37'),
-       (20, 'Can view Administration page', 'web', '2022-09-25 15:32:37', '2022-09-25 15:32:37'),
-       (21, 'View all users', 'web', '2022-09-25 15:41:08', '2022-09-25 15:41:08'),
-       (22, 'View company users', 'web', '2022-09-25 15:41:08', '2022-09-25 15:41:08'),
-       (25, 'Manage ticket statuses', 'web', '2022-09-25 15:41:08', '2022-09-25 15:41:08'),
-       (26, 'Manage ticket priorities', 'web', '2022-09-25 15:41:08', '2022-09-25 15:41:08'),
-       (27, 'Manage ticket types', 'web', '2022-09-25 15:41:08', '2022-09-25 15:41:08'),
-       (28, 'View activity log', 'web', '2022-09-25 15:41:08', '2022-09-25 15:41:08'),
-       (29, 'Create users', 'web', '2022-09-25 16:05:37', '2022-09-25 16:05:37'),
-       (30, 'Update users', 'web', '2022-09-25 16:05:37', '2022-09-25 16:05:37'),
-       (31, 'Delete users', 'web', '2022-09-25 16:05:37', '2022-09-25 16:05:37'),
-       (32, 'Assign permissions', 'web', '2022-09-25 16:05:37', '2022-09-25 16:05:37'),
-       (33, 'View all companies', 'web', '2022-09-25 16:14:01', '2022-09-25 16:14:01'),
-       (34, 'View own companies', 'web', '2022-09-25 16:14:02', '2022-09-25 16:14:02'),
-       (38, 'Create companies', 'web', '2022-09-25 16:19:38', '2022-09-25 16:19:38'),
-       (39, 'Update companies', 'web', '2022-09-25 16:19:38', '2022-09-25 16:19:38'),
-       (40, 'Delete companies', 'web', '2022-09-25 16:19:38', '2022-09-25 16:19:38'),
-       (41, 'Manage user roles', 'web', '2022-09-30 07:40:23', '2022-09-30 07:40:23'),
-       (42, 'Create user roles', 'web', '2022-09-30 08:10:52', '2022-09-30 08:10:52'),
-       (43, 'Update user roles', 'web', '2022-09-30 08:10:52', '2022-09-30 08:10:52'),
-       (44, 'Delete user roles', 'web', '2022-09-30 08:10:52', '2022-09-30 08:10:52');
+-- --------------------------------------------------------
 
-TRUNCATE TABLE roles;
-INSERT INTO `roles` (`id`, `name`, `guard_name`, `created_at`, `updated_at`)
-VALUES (1, 'Super administrator', 'web', '2022-09-30 08:11:23', '2022-09-30 08:11:23'),
-       (2, 'Employee', 'web', '2022-09-30 08:14:58', '2022-09-30 08:14:58'),
-       (3, 'Customer', 'web', '2022-09-30 08:17:01', '2022-09-30 08:17:01');
+--
+-- Table structure for table `comments`
+--
 
-TRUNCATE TABLE role_has_permissions;
-INSERT INTO `role_has_permissions` (`permission_id`, `role_id`)
-VALUES (1, 1),
-       (2, 1),
-       (3, 1),
-       (4, 1),
-       (5, 1),
-       (5, 2),
-       (5, 3),
-       (6, 1),
-       (7, 1),
-       (8, 1),
-       (9, 1),
-       (10, 1),
-       (11, 1),
-       (11, 2),
-       (11, 3),
-       (12, 1),
-       (12, 2),
-       (12, 3),
-       (13, 1),
-       (13, 2),
-       (13, 3),
-       (14, 1),
-       (14, 2),
-       (14, 3),
-       (15, 1),
-       (15, 2),
-       (16, 1),
-       (16, 2),
-       (17, 1),
-       (17, 2),
-       (17, 3),
-       (18, 1),
-       (18, 2),
-       (18, 3),
-       (19, 1),
-       (19, 2),
-       (19, 3),
-       (20, 1),
-       (20, 3),
-       (21, 1),
-       (22, 1),
-       (22, 3),
-       (25, 1),
-       (26, 1),
-       (27, 1),
-       (28, 1),
-       (29, 1),
-       (29, 3),
-       (30, 1),
-       (30, 3),
-       (31, 1),
-       (32, 1),
-       (33, 1),
-       (34, 1),
-       (34, 3),
-       (38, 1),
-       (39, 1),
-       (39, 3),
-       (40, 1),
-       (41, 1),
-       (42, 1),
-       (43, 1),
-       (44, 1);
+CREATE TABLE `comments` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `owner_id` bigint(20) UNSIGNED NOT NULL,
+  `ticket_id` bigint(20) UNSIGNED NOT NULL,
+  `content` longtext NOT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
-SET foreign_key_checks = 1;
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `companies`
+--
+
+CREATE TABLE `companies` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `logo` varchar(255) DEFAULT NULL,
+  `description` longtext DEFAULT NULL,
+  `is_disabled` tinyint(1) NOT NULL DEFAULT 0,
+  `responsible_id` bigint(20) UNSIGNED NOT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `company_users`
+--
+
+CREATE TABLE `company_users` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `user_id` bigint(20) UNSIGNED NOT NULL,
+  `company_id` bigint(20) UNSIGNED NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `failed_jobs`
+--
+
+CREATE TABLE `failed_jobs` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `uuid` varchar(255) NOT NULL,
+  `connection` text NOT NULL,
+  `queue` text NOT NULL,
+  `payload` longtext NOT NULL,
+  `exception` longtext NOT NULL,
+  `failed_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `favorite_projects`
+--
+
+CREATE TABLE `favorite_projects` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `user_id` bigint(20) UNSIGNED NOT NULL,
+  `project_id` bigint(20) UNSIGNED NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `icons`
+--
+
+CREATE TABLE `icons` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `icon` varchar(255) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `icons`
+--
+
+INSERT INTO `icons` (`id`, `icon`, `created_at`, `updated_at`) VALUES
+(1, 'fa-500px', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(2, 'fa-accessible-icon', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(3, 'fa-accusoft', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(4, 'fa-acquisitions-incorporated', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(5, 'fa-ad', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(6, 'fa-address-book', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(7, 'fa-address-card', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(8, 'fa-adjust', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(9, 'fa-adn', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(10, 'fa-adversal', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(11, 'fa-affiliatetheme', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(12, 'fa-air-freshener', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(13, 'fa-airbnb', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(14, 'fa-algolia', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(15, 'fa-align-center', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(16, 'fa-align-justify', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(17, 'fa-align-left', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(18, 'fa-align-right', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(19, 'fa-alipay', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(20, 'fa-allergies', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(21, 'fa-amazon', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(22, 'fa-amazon-pay', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(23, 'fa-ambulance', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(24, 'fa-american-sign-language-interpreting', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(25, 'fa-amilia', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(26, 'fa-anchor', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(27, 'fa-android', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(28, 'fa-angellist', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(29, 'fa-angle-double-down', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(30, 'fa-angle-double-left', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(31, 'fa-angle-double-right', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(32, 'fa-angle-double-up', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(33, 'fa-angle-down', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(34, 'fa-angle-left', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(35, 'fa-angle-right', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(36, 'fa-angle-up', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(37, 'fa-angry', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(38, 'fa-angrycreative', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(39, 'fa-angular', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(40, 'fa-ankh', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(41, 'fa-app-store', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(42, 'fa-app-store-ios', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(43, 'fa-apper', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(44, 'fa-apple', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(45, 'fa-apple-alt', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(46, 'fa-apple-pay', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(47, 'fa-archive', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(48, 'fa-archway', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(49, 'fa-arrow-alt-circle-down', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(50, 'fa-arrow-alt-circle-left', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(51, 'fa-arrow-alt-circle-right', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(52, 'fa-arrow-alt-circle-up', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(53, 'fa-arrow-circle-down', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(54, 'fa-arrow-circle-left', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(55, 'fa-arrow-circle-right', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(56, 'fa-arrow-circle-up', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(57, 'fa-arrow-down', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(58, 'fa-arrow-left', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(59, 'fa-arrow-right', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(60, 'fa-arrow-up', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(61, 'fa-arrows-alt', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(62, 'fa-arrows-alt-h', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(63, 'fa-arrows-alt-v', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(64, 'fa-artstation', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(65, 'fa-assistive-listening-systems', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(66, 'fa-asterisk', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(67, 'fa-asymmetrik', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(68, 'fa-at', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(69, 'fa-atlas', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(70, 'fa-atlassian', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(71, 'fa-atom', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(72, 'fa-audible', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(73, 'fa-audio-description', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(74, 'fa-autoprefixer', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(75, 'fa-avianex', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(76, 'fa-aviato', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(77, 'fa-award', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(78, 'fa-aws', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(79, 'fa-baby', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(80, 'fa-baby-carriage', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(81, 'fa-backspace', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(82, 'fa-backward', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(83, 'fa-bacon', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(84, 'fa-bacteria', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(85, 'fa-bacterium', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(86, 'fa-bahai', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(87, 'fa-balance-scale', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(88, 'fa-balance-scale-left', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(89, 'fa-balance-scale-right', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(90, 'fa-ban', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(91, 'fa-band-aid', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(92, 'fa-bandcamp', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(93, 'fa-barcode', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(94, 'fa-bars', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(95, 'fa-baseball-ball', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(96, 'fa-basketball-ball', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(97, 'fa-bath', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(98, 'fa-battery-empty', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(99, 'fa-battery-full', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(100, 'fa-battery-half', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(101, 'fa-battery-quarter', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(102, 'fa-battery-three-quarters', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(103, 'fa-battle-net', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(104, 'fa-bed', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(105, 'fa-beer', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(106, 'fa-behance', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(107, 'fa-behance-square', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(108, 'fa-bell', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(109, 'fa-bell-slash', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(110, 'fa-bezier-curve', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(111, 'fa-bible', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(112, 'fa-bicycle', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(113, 'fa-biking', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(114, 'fa-bimobject', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(115, 'fa-binoculars', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(116, 'fa-biohazard', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(117, 'fa-birthday-cake', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(118, 'fa-bitbucket', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(119, 'fa-bitcoin', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(120, 'fa-bity', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(121, 'fa-black-tie', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(122, 'fa-blackberry', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(123, 'fa-blender', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(124, 'fa-blender-phone', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(125, 'fa-blind', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(126, 'fa-blog', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(127, 'fa-blogger', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(128, 'fa-blogger-b', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(129, 'fa-bluetooth', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(130, 'fa-bluetooth-b', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(131, 'fa-bold', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(132, 'fa-bolt', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(133, 'fa-bomb', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(134, 'fa-bone', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(135, 'fa-bong', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(136, 'fa-book', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(137, 'fa-book-dead', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(138, 'fa-book-medical', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(139, 'fa-book-open', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(140, 'fa-book-reader', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(141, 'fa-bookmark', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(142, 'fa-bootstrap', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(143, 'fa-border-all', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(144, 'fa-border-none', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(145, 'fa-border-style', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(146, 'fa-bowling-ball', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(147, 'fa-box', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(148, 'fa-box-open', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(149, 'fa-box-tissue', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(150, 'fa-boxes', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(151, 'fa-braille', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(152, 'fa-brain', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(153, 'fa-bread-slice', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(154, 'fa-briefcase', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(155, 'fa-briefcase-medical', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(156, 'fa-broadcast-tower', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(157, 'fa-broom', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(158, 'fa-brush', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(159, 'fa-btc', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(160, 'fa-buffer', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(161, 'fa-bug', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(162, 'fa-building', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(163, 'fa-bullhorn', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(164, 'fa-bullseye', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(165, 'fa-burn', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(166, 'fa-buromobelexperte', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(167, 'fa-bus', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(168, 'fa-bus-alt', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(169, 'fa-business-time', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(170, 'fa-buy-n-large', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(171, 'fa-buysellads', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(172, 'fa-calculator', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(173, 'fa-calendar', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(174, 'fa-calendar-alt', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(175, 'fa-calendar-check', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(176, 'fa-calendar-day', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(177, 'fa-calendar-minus', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(178, 'fa-calendar-plus', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(179, 'fa-calendar-times', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(180, 'fa-calendar-week', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(181, 'fa-camera', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(182, 'fa-camera-retro', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(183, 'fa-campground', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(184, 'fa-canadian-maple-leaf', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(185, 'fa-candy-cane', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(186, 'fa-cannabis', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(187, 'fa-capsules', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(188, 'fa-car', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(189, 'fa-car-alt', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(190, 'fa-car-battery', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(191, 'fa-car-crash', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(192, 'fa-car-side', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(193, 'fa-caravan', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(194, 'fa-caret-down', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(195, 'fa-caret-left', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(196, 'fa-caret-right', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(197, 'fa-caret-square-down', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(198, 'fa-caret-square-left', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(199, 'fa-caret-square-right', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(200, 'fa-caret-square-up', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(201, 'fa-caret-up', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(202, 'fa-carrot', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(203, 'fa-cart-arrow-down', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(204, 'fa-cart-plus', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(205, 'fa-cash-register', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(206, 'fa-cat', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(207, 'fa-cc-amazon-pay', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(208, 'fa-cc-amex', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(209, 'fa-cc-apple-pay', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(210, 'fa-cc-diners-club', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(211, 'fa-cc-discover', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(212, 'fa-cc-jcb', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(213, 'fa-cc-mastercard', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(214, 'fa-cc-paypal', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(215, 'fa-cc-stripe', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(216, 'fa-cc-visa', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(217, 'fa-centercode', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(218, 'fa-centos', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(219, 'fa-certificate', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(220, 'fa-chair', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(221, 'fa-chalkboard', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(222, 'fa-chalkboard-teacher', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(223, 'fa-charging-station', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(224, 'fa-chart-area', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(225, 'fa-chart-bar', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(226, 'fa-chart-line', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(227, 'fa-chart-pie', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(228, 'fa-check', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(229, 'fa-check-circle', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(230, 'fa-check-double', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(231, 'fa-check-square', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(232, 'fa-cheese', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(233, 'fa-chess', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(234, 'fa-chess-bishop', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(235, 'fa-chess-board', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(236, 'fa-chess-king', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(237, 'fa-chess-knight', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(238, 'fa-chess-pawn', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(239, 'fa-chess-queen', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(240, 'fa-chess-rook', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(241, 'fa-chevron-circle-down', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(242, 'fa-chevron-circle-left', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(243, 'fa-chevron-circle-right', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(244, 'fa-chevron-circle-up', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(245, 'fa-chevron-down', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(246, 'fa-chevron-left', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(247, 'fa-chevron-right', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(248, 'fa-chevron-up', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(249, 'fa-child', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(250, 'fa-chrome', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(251, 'fa-chromecast', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(252, 'fa-church', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(253, 'fa-circle', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(254, 'fa-circle-notch', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(255, 'fa-city', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(256, 'fa-clinic-medical', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(257, 'fa-clipboard', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(258, 'fa-clipboard-check', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(259, 'fa-clipboard-list', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(260, 'fa-clock', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(261, 'fa-clone', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(262, 'fa-closed-captioning', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(263, 'fa-cloud', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(264, 'fa-cloud-download-alt', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(265, 'fa-cloud-meatball', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(266, 'fa-cloud-moon', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(267, 'fa-cloud-moon-rain', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(268, 'fa-cloud-rain', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(269, 'fa-cloud-showers-heavy', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(270, 'fa-cloud-sun', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(271, 'fa-cloud-sun-rain', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(272, 'fa-cloud-upload-alt', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(273, 'fa-cloudflare', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(274, 'fa-cloudscale', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(275, 'fa-cloudsmith', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(276, 'fa-cloudversify', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(277, 'fa-cocktail', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(278, 'fa-code', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(279, 'fa-code-branch', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(280, 'fa-codepen', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(281, 'fa-codiepie', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(282, 'fa-coffee', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(283, 'fa-cog', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(284, 'fa-cogs', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(285, 'fa-coins', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(286, 'fa-columns', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(287, 'fa-comment', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(288, 'fa-comment-alt', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(289, 'fa-comment-dollar', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(290, 'fa-comment-dots', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(291, 'fa-comment-medical', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(292, 'fa-comment-slash', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(293, 'fa-comments', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(294, 'fa-comments-dollar', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(295, 'fa-compact-disc', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(296, 'fa-compass', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(297, 'fa-compress', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(298, 'fa-compress-alt', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(299, 'fa-compress-arrows-alt', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(300, 'fa-concierge-bell', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(301, 'fa-confluence', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(302, 'fa-connectdevelop', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(303, 'fa-contao', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(304, 'fa-cookie', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(305, 'fa-cookie-bite', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(306, 'fa-copy', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(307, 'fa-copyright', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(308, 'fa-cotton-bureau', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(309, 'fa-couch', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(310, 'fa-cpanel', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(311, 'fa-creative-commons', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(312, 'fa-creative-commons-by', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(313, 'fa-creative-commons-nc', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(314, 'fa-creative-commons-nc-eu', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(315, 'fa-creative-commons-nc-jp', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(316, 'fa-creative-commons-nd', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(317, 'fa-creative-commons-pd', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(318, 'fa-creative-commons-pd-alt', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(319, 'fa-creative-commons-remix', '2024-01-17 21:38:05', '2024-01-17 21:38:05'),
+(320, 'fa-creative-commons-sa', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(321, 'fa-creative-commons-sampling', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(322, 'fa-creative-commons-sampling-plus', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(323, 'fa-creative-commons-share', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(324, 'fa-creative-commons-zero', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(325, 'fa-credit-card', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(326, 'fa-critical-role', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(327, 'fa-crop', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(328, 'fa-crop-alt', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(329, 'fa-cross', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(330, 'fa-crosshairs', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(331, 'fa-crow', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(332, 'fa-crown', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(333, 'fa-crutch', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(334, 'fa-css3', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(335, 'fa-css3-alt', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(336, 'fa-cube', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(337, 'fa-cubes', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(338, 'fa-cut', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(339, 'fa-cuttlefish', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(340, 'fa-d-and-d', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(341, 'fa-d-and-d-beyond', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(342, 'fa-dailymotion', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(343, 'fa-dashcube', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(344, 'fa-database', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(345, 'fa-deaf', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(346, 'fa-deezer', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(347, 'fa-delicious', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(348, 'fa-democrat', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(349, 'fa-deploydog', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(350, 'fa-deskpro', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(351, 'fa-desktop', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(352, 'fa-dev', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(353, 'fa-deviantart', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(354, 'fa-dharmachakra', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(355, 'fa-dhl', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(356, 'fa-diagnoses', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(357, 'fa-diaspora', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(358, 'fa-dice', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(359, 'fa-dice-d20', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(360, 'fa-dice-d6', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(361, 'fa-dice-five', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(362, 'fa-dice-four', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(363, 'fa-dice-one', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(364, 'fa-dice-six', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(365, 'fa-dice-three', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(366, 'fa-dice-two', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(367, 'fa-digg', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(368, 'fa-digital-ocean', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(369, 'fa-digital-tachograph', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(370, 'fa-directions', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(371, 'fa-discord', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(372, 'fa-discourse', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(373, 'fa-disease', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(374, 'fa-divide', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(375, 'fa-dizzy', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(376, 'fa-dna', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(377, 'fa-dochub', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(378, 'fa-docker', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(379, 'fa-dog', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(380, 'fa-dollar-sign', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(381, 'fa-dolly', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(382, 'fa-dolly-flatbed', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(383, 'fa-donate', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(384, 'fa-door-closed', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(385, 'fa-door-open', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(386, 'fa-dot-circle', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(387, 'fa-dove', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(388, 'fa-download', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(389, 'fa-draft2digital', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(390, 'fa-drafting-compass', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(391, 'fa-dragon', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(392, 'fa-draw-polygon', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(393, 'fa-dribbble', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(394, 'fa-dribbble-square', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(395, 'fa-dropbox', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(396, 'fa-drum', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(397, 'fa-drum-steelpan', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(398, 'fa-drumstick-bite', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(399, 'fa-drupal', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(400, 'fa-dumbbell', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(401, 'fa-dumpster', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(402, 'fa-dumpster-fire', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(403, 'fa-dungeon', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(404, 'fa-dyalog', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(405, 'fa-earlybirds', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(406, 'fa-ebay', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(407, 'fa-edge', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(408, 'fa-edge-legacy', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(409, 'fa-edit', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(410, 'fa-egg', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(411, 'fa-eject', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(412, 'fa-elementor', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(413, 'fa-ellipsis-h', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(414, 'fa-ellipsis-v', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(415, 'fa-ello', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(416, 'fa-ember', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(417, 'fa-empire', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(418, 'fa-envelope', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(419, 'fa-envelope-open', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(420, 'fa-envelope-open-text', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(421, 'fa-envelope-square', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(422, 'fa-envira', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(423, 'fa-equals', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(424, 'fa-eraser', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(425, 'fa-erlang', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(426, 'fa-ethereum', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(427, 'fa-ethernet', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(428, 'fa-etsy', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(429, 'fa-euro-sign', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(430, 'fa-evernote', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(431, 'fa-exchange-alt', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(432, 'fa-exclamation', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(433, 'fa-exclamation-circle', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(434, 'fa-exclamation-triangle', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(435, 'fa-expand', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(436, 'fa-expand-alt', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(437, 'fa-expand-arrows-alt', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(438, 'fa-expeditedssl', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(439, 'fa-external-link-alt', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(440, 'fa-external-link-square-alt', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(441, 'fa-eye', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(442, 'fa-eye-dropper', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(443, 'fa-eye-slash', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(444, 'fa-facebook', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(445, 'fa-facebook-f', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(446, 'fa-facebook-messenger', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(447, 'fa-facebook-square', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(448, 'fa-fan', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(449, 'fa-fantasy-flight-games', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(450, 'fa-fast-backward', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(451, 'fa-fast-forward', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(452, 'fa-faucet', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(453, 'fa-fax', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(454, 'fa-feather', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(455, 'fa-feather-alt', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(456, 'fa-fedex', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(457, 'fa-fedora', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(458, 'fa-female', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(459, 'fa-fighter-jet', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(460, 'fa-figma', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(461, 'fa-file', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(462, 'fa-file-alt', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(463, 'fa-file-archive', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(464, 'fa-file-audio', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(465, 'fa-file-code', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(466, 'fa-file-contract', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(467, 'fa-file-csv', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(468, 'fa-file-download', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(469, 'fa-file-excel', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(470, 'fa-file-export', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(471, 'fa-file-image', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(472, 'fa-file-import', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(473, 'fa-file-invoice', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(474, 'fa-file-invoice-dollar', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(475, 'fa-file-medical', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(476, 'fa-file-medical-alt', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(477, 'fa-file-pdf', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(478, 'fa-file-powerpoint', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(479, 'fa-file-prescription', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(480, 'fa-file-signature', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(481, 'fa-file-upload', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(482, 'fa-file-video', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(483, 'fa-file-word', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(484, 'fa-fill', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(485, 'fa-fill-drip', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(486, 'fa-film', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(487, 'fa-filter', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(488, 'fa-fingerprint', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(489, 'fa-fire', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(490, 'fa-fire-alt', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(491, 'fa-fire-extinguisher', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(492, 'fa-firefox', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(493, 'fa-firefox-browser', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(494, 'fa-first-aid', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(495, 'fa-first-order', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(496, 'fa-first-order-alt', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(497, 'fa-firstdraft', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(498, 'fa-fish', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(499, 'fa-fist-raised', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(500, 'fa-flag', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(501, 'fa-flag-checkered', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(502, 'fa-flag-usa', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(503, 'fa-flask', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(504, 'fa-flickr', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(505, 'fa-flipboard', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(506, 'fa-flushed', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(507, 'fa-fly', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(508, 'fa-folder', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(509, 'fa-folder-minus', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(510, 'fa-folder-open', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(511, 'fa-folder-plus', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(512, 'fa-font', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(513, 'fa-font-awesome', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(514, 'fa-font-awesome-alt', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(515, 'fa-font-awesome-flag', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(516, 'fa-font-awesome-logo-full', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(517, 'fa-fonticons', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(518, 'fa-fonticons-fi', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(519, 'fa-football-ball', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(520, 'fa-fort-awesome', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(521, 'fa-fort-awesome-alt', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(522, 'fa-forumbee', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(523, 'fa-forward', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(524, 'fa-foursquare', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(525, 'fa-free-code-camp', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(526, 'fa-freebsd', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(527, 'fa-frog', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(528, 'fa-frown', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(529, 'fa-frown-open', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(530, 'fa-fulcrum', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(531, 'fa-funnel-dollar', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(532, 'fa-futbol', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(533, 'fa-galactic-republic', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(534, 'fa-galactic-senate', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(535, 'fa-gamepad', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(536, 'fa-gas-pump', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(537, 'fa-gavel', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(538, 'fa-gem', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(539, 'fa-genderless', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(540, 'fa-get-pocket', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(541, 'fa-gg', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(542, 'fa-gg-circle', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(543, 'fa-ghost', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(544, 'fa-gift', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(545, 'fa-gifts', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(546, 'fa-git', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(547, 'fa-git-alt', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(548, 'fa-git-square', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(549, 'fa-github', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(550, 'fa-github-alt', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(551, 'fa-github-square', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(552, 'fa-gitkraken', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(553, 'fa-gitlab', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(554, 'fa-gitter', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(555, 'fa-glass-cheers', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(556, 'fa-glass-martini', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(557, 'fa-glass-martini-alt', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(558, 'fa-glass-whiskey', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(559, 'fa-glasses', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(560, 'fa-glide', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(561, 'fa-glide-g', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(562, 'fa-globe', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(563, 'fa-globe-africa', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(564, 'fa-globe-americas', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(565, 'fa-globe-asia', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(566, 'fa-globe-europe', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(567, 'fa-gofore', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(568, 'fa-golf-ball', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(569, 'fa-goodreads', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(570, 'fa-goodreads-g', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(571, 'fa-google', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(572, 'fa-google-drive', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(573, 'fa-google-pay', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(574, 'fa-google-play', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(575, 'fa-google-plus', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(576, 'fa-google-plus-g', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(577, 'fa-google-plus-square', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(578, 'fa-google-wallet', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(579, 'fa-gopuram', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(580, 'fa-graduation-cap', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(581, 'fa-gratipay', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(582, 'fa-grav', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(583, 'fa-greater-than', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(584, 'fa-greater-than-equal', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(585, 'fa-grimace', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(586, 'fa-grin', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(587, 'fa-grin-alt', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(588, 'fa-grin-beam', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(589, 'fa-grin-beam-sweat', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(590, 'fa-grin-hearts', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(591, 'fa-grin-squint', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(592, 'fa-grin-squint-tears', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(593, 'fa-grin-stars', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(594, 'fa-grin-tears', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(595, 'fa-grin-tongue', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(596, 'fa-grin-tongue-squint', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(597, 'fa-grin-tongue-wink', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(598, 'fa-grin-wink', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(599, 'fa-grip-horizontal', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(600, 'fa-grip-lines', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(601, 'fa-grip-lines-vertical', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(602, 'fa-grip-vertical', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(603, 'fa-gripfire', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(604, 'fa-grunt', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(605, 'fa-guilded', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(606, 'fa-guitar', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(607, 'fa-gulp', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(608, 'fa-h-square', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(609, 'fa-hacker-news', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(610, 'fa-hacker-news-square', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(611, 'fa-hackerrank', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(612, 'fa-hamburger', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(613, 'fa-hammer', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(614, 'fa-hamsa', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(615, 'fa-hand-holding', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(616, 'fa-hand-holding-heart', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(617, 'fa-hand-holding-medical', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(618, 'fa-hand-holding-usd', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(619, 'fa-hand-holding-water', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(620, 'fa-hand-lizard', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(621, 'fa-hand-middle-finger', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(622, 'fa-hand-paper', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(623, 'fa-hand-peace', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(624, 'fa-hand-point-down', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(625, 'fa-hand-point-left', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(626, 'fa-hand-point-right', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(627, 'fa-hand-point-up', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(628, 'fa-hand-pointer', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(629, 'fa-hand-rock', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(630, 'fa-hand-scissors', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(631, 'fa-hand-sparkles', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(632, 'fa-hand-spock', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(633, 'fa-hands', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(634, 'fa-hands-helping', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(635, 'fa-hands-wash', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(636, 'fa-handshake', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(637, 'fa-handshake-alt-slash', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(638, 'fa-handshake-slash', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(639, 'fa-hanukiah', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(640, 'fa-hard-hat', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(641, 'fa-hashtag', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(642, 'fa-hat-cowboy', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(643, 'fa-hat-cowboy-side', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(644, 'fa-hat-wizard', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(645, 'fa-hdd', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(646, 'fa-head-side-cough', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(647, 'fa-head-side-cough-slash', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(648, 'fa-head-side-mask', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(649, 'fa-head-side-virus', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(650, 'fa-heading', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(651, 'fa-headphones', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(652, 'fa-headphones-alt', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(653, 'fa-headset', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(654, 'fa-heart', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(655, 'fa-heart-broken', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(656, 'fa-heartbeat', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(657, 'fa-helicopter', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(658, 'fa-highlighter', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(659, 'fa-hiking', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(660, 'fa-hippo', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(661, 'fa-hips', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(662, 'fa-hire-a-helper', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(663, 'fa-history', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(664, 'fa-hive', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(665, 'fa-hockey-puck', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(666, 'fa-holly-berry', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(667, 'fa-home', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(668, 'fa-hooli', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(669, 'fa-hornbill', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(670, 'fa-horse', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(671, 'fa-horse-head', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(672, 'fa-hospital', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(673, 'fa-hospital-alt', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(674, 'fa-hospital-symbol', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(675, 'fa-hospital-user', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(676, 'fa-hot-tub', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(677, 'fa-hotdog', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(678, 'fa-hotel', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(679, 'fa-hotjar', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(680, 'fa-hourglass', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(681, 'fa-hourglass-end', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(682, 'fa-hourglass-half', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(683, 'fa-hourglass-start', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(684, 'fa-house-damage', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(685, 'fa-house-user', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(686, 'fa-houzz', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(687, 'fa-hryvnia', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(688, 'fa-html5', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(689, 'fa-hubspot', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(690, 'fa-i-cursor', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(691, 'fa-ice-cream', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(692, 'fa-icicles', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(693, 'fa-icons', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(694, 'fa-id-badge', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(695, 'fa-id-card', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(696, 'fa-id-card-alt', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(697, 'fa-ideal', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(698, 'fa-igloo', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(699, 'fa-image', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(700, 'fa-images', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(701, 'fa-imdb', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(702, 'fa-inbox', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(703, 'fa-indent', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(704, 'fa-industry', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(705, 'fa-infinity', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(706, 'fa-info', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(707, 'fa-info-circle', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(708, 'fa-innosoft', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(709, 'fa-instagram', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(710, 'fa-instagram-square', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(711, 'fa-instalod', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(712, 'fa-intercom', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(713, 'fa-internet-explorer', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(714, 'fa-invision', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(715, 'fa-ioxhost', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(716, 'fa-italic', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(717, 'fa-itch-io', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(718, 'fa-itunes', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(719, 'fa-itunes-note', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(720, 'fa-java', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(721, 'fa-jedi', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(722, 'fa-jedi-order', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(723, 'fa-jenkins', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(724, 'fa-jira', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(725, 'fa-joget', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(726, 'fa-joint', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(727, 'fa-joomla', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(728, 'fa-journal-whills', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(729, 'fa-js', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(730, 'fa-js-square', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(731, 'fa-jsfiddle', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(732, 'fa-kaaba', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(733, 'fa-kaggle', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(734, 'fa-key', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(735, 'fa-keybase', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(736, 'fa-keyboard', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(737, 'fa-keycdn', '2024-01-17 21:38:06', '2024-01-17 21:38:06');
+INSERT INTO `icons` (`id`, `icon`, `created_at`, `updated_at`) VALUES
+(738, 'fa-khanda', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(739, 'fa-kickstarter', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(740, 'fa-kickstarter-k', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(741, 'fa-kiss', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(742, 'fa-kiss-beam', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(743, 'fa-kiss-wink-heart', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(744, 'fa-kiwi-bird', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(745, 'fa-korvue', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(746, 'fa-landmark', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(747, 'fa-language', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(748, 'fa-laptop', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(749, 'fa-laptop-code', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(750, 'fa-laptop-house', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(751, 'fa-laptop-medical', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(752, 'fa-laravel', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(753, 'fa-lastfm', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(754, 'fa-lastfm-square', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(755, 'fa-laugh', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(756, 'fa-laugh-beam', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(757, 'fa-laugh-squint', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(758, 'fa-laugh-wink', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(759, 'fa-layer-group', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(760, 'fa-leaf', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(761, 'fa-leanpub', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(762, 'fa-lemon', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(763, 'fa-less', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(764, 'fa-less-than', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(765, 'fa-less-than-equal', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(766, 'fa-level-down-alt', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(767, 'fa-level-up-alt', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(768, 'fa-life-ring', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(769, 'fa-lightbulb', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(770, 'fa-line', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(771, 'fa-link', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(772, 'fa-linkedin', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(773, 'fa-linkedin-in', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(774, 'fa-linode', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(775, 'fa-linux', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(776, 'fa-lira-sign', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(777, 'fa-list', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(778, 'fa-list-alt', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(779, 'fa-list-ol', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(780, 'fa-list-ul', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(781, 'fa-location-arrow', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(782, 'fa-lock', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(783, 'fa-lock-open', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(784, 'fa-long-arrow-alt-down', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(785, 'fa-long-arrow-alt-left', '2024-01-17 21:38:06', '2024-01-17 21:38:06'),
+(786, 'fa-long-arrow-alt-right', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(787, 'fa-long-arrow-alt-up', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(788, 'fa-low-vision', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(789, 'fa-luggage-cart', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(790, 'fa-lungs', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(791, 'fa-lungs-virus', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(792, 'fa-lyft', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(793, 'fa-magento', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(794, 'fa-magic', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(795, 'fa-magnet', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(796, 'fa-mail-bulk', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(797, 'fa-mailchimp', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(798, 'fa-male', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(799, 'fa-mandalorian', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(800, 'fa-map', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(801, 'fa-map-marked', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(802, 'fa-map-marked-alt', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(803, 'fa-map-marker', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(804, 'fa-map-marker-alt', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(805, 'fa-map-pin', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(806, 'fa-map-signs', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(807, 'fa-markdown', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(808, 'fa-marker', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(809, 'fa-mars', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(810, 'fa-mars-double', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(811, 'fa-mars-stroke', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(812, 'fa-mars-stroke-h', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(813, 'fa-mars-stroke-v', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(814, 'fa-mask', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(815, 'fa-mastodon', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(816, 'fa-maxcdn', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(817, 'fa-mdb', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(818, 'fa-medal', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(819, 'fa-medapps', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(820, 'fa-medium', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(821, 'fa-medium-m', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(822, 'fa-medkit', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(823, 'fa-medrt', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(824, 'fa-meetup', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(825, 'fa-megaport', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(826, 'fa-meh', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(827, 'fa-meh-blank', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(828, 'fa-meh-rolling-eyes', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(829, 'fa-memory', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(830, 'fa-mendeley', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(831, 'fa-menorah', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(832, 'fa-mercury', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(833, 'fa-meteor', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(834, 'fa-microblog', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(835, 'fa-microchip', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(836, 'fa-microphone', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(837, 'fa-microphone-alt', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(838, 'fa-microphone-alt-slash', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(839, 'fa-microphone-slash', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(840, 'fa-microscope', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(841, 'fa-microsoft', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(842, 'fa-minus', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(843, 'fa-minus-circle', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(844, 'fa-minus-square', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(845, 'fa-mitten', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(846, 'fa-mix', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(847, 'fa-mixcloud', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(848, 'fa-mixer', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(849, 'fa-mizuni', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(850, 'fa-mobile', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(851, 'fa-mobile-alt', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(852, 'fa-modx', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(853, 'fa-monero', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(854, 'fa-money-bill', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(855, 'fa-money-bill-alt', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(856, 'fa-money-bill-wave', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(857, 'fa-money-bill-wave-alt', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(858, 'fa-money-check', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(859, 'fa-money-check-alt', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(860, 'fa-monument', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(861, 'fa-moon', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(862, 'fa-mortar-pestle', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(863, 'fa-mosque', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(864, 'fa-motorcycle', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(865, 'fa-mountain', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(866, 'fa-mouse', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(867, 'fa-mouse-pointer', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(868, 'fa-mug-hot', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(869, 'fa-music', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(870, 'fa-napster', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(871, 'fa-neos', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(872, 'fa-network-wired', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(873, 'fa-neuter', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(874, 'fa-newspaper', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(875, 'fa-nimblr', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(876, 'fa-node', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(877, 'fa-node-js', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(878, 'fa-not-equal', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(879, 'fa-notes-medical', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(880, 'fa-npm', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(881, 'fa-ns8', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(882, 'fa-nutritionix', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(883, 'fa-object-group', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(884, 'fa-object-ungroup', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(885, 'fa-octopus-deploy', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(886, 'fa-odnoklassniki', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(887, 'fa-odnoklassniki-square', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(888, 'fa-oil-can', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(889, 'fa-old-republic', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(890, 'fa-om', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(891, 'fa-opencart', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(892, 'fa-openid', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(893, 'fa-opera', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(894, 'fa-optin-monster', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(895, 'fa-orcid', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(896, 'fa-osi', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(897, 'fa-otter', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(898, 'fa-outdent', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(899, 'fa-page4', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(900, 'fa-pagelines', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(901, 'fa-pager', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(902, 'fa-paint-brush', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(903, 'fa-paint-roller', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(904, 'fa-palette', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(905, 'fa-palfed', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(906, 'fa-pallet', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(907, 'fa-paper-plane', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(908, 'fa-paperclip', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(909, 'fa-parachute-box', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(910, 'fa-paragraph', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(911, 'fa-parking', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(912, 'fa-passport', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(913, 'fa-pastafarianism', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(914, 'fa-paste', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(915, 'fa-patreon', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(916, 'fa-pause', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(917, 'fa-pause-circle', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(918, 'fa-paw', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(919, 'fa-paypal', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(920, 'fa-peace', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(921, 'fa-pen', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(922, 'fa-pen-alt', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(923, 'fa-pen-fancy', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(924, 'fa-pen-nib', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(925, 'fa-pen-square', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(926, 'fa-pencil-alt', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(927, 'fa-pencil-ruler', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(928, 'fa-penny-arcade', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(929, 'fa-people-arrows', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(930, 'fa-people-carry', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(931, 'fa-pepper-hot', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(932, 'fa-perbyte', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(933, 'fa-percent', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(934, 'fa-percentage', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(935, 'fa-periscope', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(936, 'fa-person-booth', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(937, 'fa-phabricator', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(938, 'fa-phoenix-framework', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(939, 'fa-phoenix-squadron', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(940, 'fa-phone', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(941, 'fa-phone-alt', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(942, 'fa-phone-slash', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(943, 'fa-phone-square', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(944, 'fa-phone-square-alt', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(945, 'fa-phone-volume', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(946, 'fa-photo-video', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(947, 'fa-php', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(948, 'fa-pied-piper', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(949, 'fa-pied-piper-alt', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(950, 'fa-pied-piper-hat', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(951, 'fa-pied-piper-pp', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(952, 'fa-pied-piper-square', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(953, 'fa-piggy-bank', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(954, 'fa-pills', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(955, 'fa-pinterest', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(956, 'fa-pinterest-p', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(957, 'fa-pinterest-square', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(958, 'fa-pizza-slice', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(959, 'fa-place-of-worship', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(960, 'fa-plane', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(961, 'fa-plane-arrival', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(962, 'fa-plane-departure', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(963, 'fa-plane-slash', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(964, 'fa-play', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(965, 'fa-play-circle', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(966, 'fa-playstation', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(967, 'fa-plug', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(968, 'fa-plus', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(969, 'fa-plus-circle', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(970, 'fa-plus-square', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(971, 'fa-podcast', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(972, 'fa-poll', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(973, 'fa-poll-h', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(974, 'fa-poo', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(975, 'fa-poo-storm', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(976, 'fa-poop', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(977, 'fa-portrait', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(978, 'fa-pound-sign', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(979, 'fa-power-off', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(980, 'fa-pray', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(981, 'fa-praying-hands', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(982, 'fa-prescription', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(983, 'fa-prescription-bottle', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(984, 'fa-prescription-bottle-alt', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(985, 'fa-print', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(986, 'fa-procedures', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(987, 'fa-product-hunt', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(988, 'fa-project-diagram', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(989, 'fa-pump-medical', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(990, 'fa-pump-soap', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(991, 'fa-pushed', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(992, 'fa-puzzle-piece', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(993, 'fa-python', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(994, 'fa-qq', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(995, 'fa-qrcode', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(996, 'fa-question', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(997, 'fa-question-circle', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(998, 'fa-quidditch', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(999, 'fa-quinscape', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(1000, 'fa-quora', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(1001, 'fa-quote-left', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(1002, 'fa-quote-right', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(1003, 'fa-quran', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(1004, 'fa-r-project', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(1005, 'fa-radiation', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(1006, 'fa-radiation-alt', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(1007, 'fa-rainbow', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(1008, 'fa-random', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(1009, 'fa-raspberry-pi', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(1010, 'fa-ravelry', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(1011, 'fa-react', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(1012, 'fa-reacteurope', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(1013, 'fa-readme', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(1014, 'fa-rebel', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(1015, 'fa-receipt', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(1016, 'fa-record-vinyl', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(1017, 'fa-recycle', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(1018, 'fa-red-river', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(1019, 'fa-reddit', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(1020, 'fa-reddit-alien', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(1021, 'fa-reddit-square', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(1022, 'fa-redhat', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(1023, 'fa-redo', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(1024, 'fa-redo-alt', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(1025, 'fa-registered', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(1026, 'fa-remove-format', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(1027, 'fa-renren', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(1028, 'fa-reply', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(1029, 'fa-reply-all', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(1030, 'fa-replyd', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(1031, 'fa-republican', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(1032, 'fa-researchgate', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(1033, 'fa-resolving', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(1034, 'fa-restroom', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(1035, 'fa-retweet', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(1036, 'fa-rev', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(1037, 'fa-ribbon', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(1038, 'fa-ring', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(1039, 'fa-road', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(1040, 'fa-robot', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(1041, 'fa-rocket', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(1042, 'fa-rocketchat', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(1043, 'fa-rockrms', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(1044, 'fa-route', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(1045, 'fa-rss', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(1046, 'fa-rss-square', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(1047, 'fa-ruble-sign', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(1048, 'fa-ruler', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(1049, 'fa-ruler-combined', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(1050, 'fa-ruler-horizontal', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(1051, 'fa-ruler-vertical', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(1052, 'fa-running', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(1053, 'fa-rupee-sign', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(1054, 'fa-rust', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(1055, 'fa-sad-cry', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(1056, 'fa-sad-tear', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(1057, 'fa-safari', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(1058, 'fa-salesforce', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(1059, 'fa-sass', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(1060, 'fa-satellite', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(1061, 'fa-satellite-dish', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(1062, 'fa-save', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(1063, 'fa-schlix', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(1064, 'fa-school', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(1065, 'fa-screwdriver', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(1066, 'fa-scribd', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(1067, 'fa-scroll', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(1068, 'fa-sd-card', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(1069, 'fa-search', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(1070, 'fa-search-dollar', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(1071, 'fa-search-location', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(1072, 'fa-search-minus', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(1073, 'fa-search-plus', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(1074, 'fa-searchengin', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(1075, 'fa-seedling', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(1076, 'fa-sellcast', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(1077, 'fa-sellsy', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(1078, 'fa-server', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(1079, 'fa-servicestack', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(1080, 'fa-shapes', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(1081, 'fa-share', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(1082, 'fa-share-alt', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(1083, 'fa-share-alt-square', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(1084, 'fa-share-square', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(1085, 'fa-shekel-sign', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(1086, 'fa-shield-alt', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(1087, 'fa-shield-virus', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(1088, 'fa-ship', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(1089, 'fa-shipping-fast', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(1090, 'fa-shirtsinbulk', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(1091, 'fa-shoe-prints', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(1092, 'fa-shopify', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(1093, 'fa-shopping-bag', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(1094, 'fa-shopping-basket', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(1095, 'fa-shopping-cart', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(1096, 'fa-shopware', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(1097, 'fa-shower', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(1098, 'fa-shuttle-van', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(1099, 'fa-sign', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(1100, 'fa-sign-in-alt', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(1101, 'fa-sign-language', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(1102, 'fa-sign-out-alt', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(1103, 'fa-signal', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(1104, 'fa-signature', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(1105, 'fa-sim-card', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(1106, 'fa-simplybuilt', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(1107, 'fa-sink', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(1108, 'fa-sistrix', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(1109, 'fa-sitemap', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(1110, 'fa-sith', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(1111, 'fa-skating', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(1112, 'fa-sketch', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(1113, 'fa-skiing', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(1114, 'fa-skiing-nordic', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(1115, 'fa-skull', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(1116, 'fa-skull-crossbones', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(1117, 'fa-skyatlas', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(1118, 'fa-skype', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(1119, 'fa-slack', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(1120, 'fa-slack-hash', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(1121, 'fa-slash', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(1122, 'fa-sleigh', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(1123, 'fa-sliders-h', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(1124, 'fa-slideshare', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(1125, 'fa-smile', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(1126, 'fa-smile-beam', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(1127, 'fa-smile-wink', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(1128, 'fa-smog', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(1129, 'fa-smoking', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(1130, 'fa-smoking-ban', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(1131, 'fa-sms', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(1132, 'fa-snapchat', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(1133, 'fa-snapchat-ghost', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(1134, 'fa-snapchat-square', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(1135, 'fa-snowboarding', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(1136, 'fa-snowflake', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(1137, 'fa-snowman', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(1138, 'fa-snowplow', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(1139, 'fa-soap', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(1140, 'fa-socks', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(1141, 'fa-solar-panel', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(1142, 'fa-sort', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(1143, 'fa-sort-alpha-down', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(1144, 'fa-sort-alpha-down-alt', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(1145, 'fa-sort-alpha-up', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(1146, 'fa-sort-alpha-up-alt', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(1147, 'fa-sort-amount-down', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(1148, 'fa-sort-amount-down-alt', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(1149, 'fa-sort-amount-up', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(1150, 'fa-sort-amount-up-alt', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(1151, 'fa-sort-down', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(1152, 'fa-sort-numeric-down', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(1153, 'fa-sort-numeric-down-alt', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(1154, 'fa-sort-numeric-up', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(1155, 'fa-sort-numeric-up-alt', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(1156, 'fa-sort-up', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(1157, 'fa-soundcloud', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(1158, 'fa-sourcetree', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(1159, 'fa-spa', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(1160, 'fa-space-shuttle', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(1161, 'fa-speakap', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(1162, 'fa-speaker-deck', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(1163, 'fa-spell-check', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(1164, 'fa-spider', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(1165, 'fa-spinner', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(1166, 'fa-splotch', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(1167, 'fa-spotify', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(1168, 'fa-spray-can', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(1169, 'fa-square', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(1170, 'fa-square-full', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(1171, 'fa-square-root-alt', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(1172, 'fa-squarespace', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(1173, 'fa-stack-exchange', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(1174, 'fa-stack-overflow', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(1175, 'fa-stackpath', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(1176, 'fa-stamp', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(1177, 'fa-star', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(1178, 'fa-star-and-crescent', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(1179, 'fa-star-half', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(1180, 'fa-star-half-alt', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(1181, 'fa-star-of-david', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(1182, 'fa-star-of-life', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(1183, 'fa-staylinked', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(1184, 'fa-steam', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(1185, 'fa-steam-square', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(1186, 'fa-steam-symbol', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(1187, 'fa-step-backward', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(1188, 'fa-step-forward', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(1189, 'fa-stethoscope', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(1190, 'fa-sticker-mule', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(1191, 'fa-sticky-note', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(1192, 'fa-stop', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(1193, 'fa-stop-circle', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(1194, 'fa-stopwatch', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(1195, 'fa-stopwatch-20', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(1196, 'fa-store', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(1197, 'fa-store-alt', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(1198, 'fa-store-alt-slash', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(1199, 'fa-store-slash', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(1200, 'fa-strava', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(1201, 'fa-stream', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(1202, 'fa-street-view', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(1203, 'fa-strikethrough', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(1204, 'fa-stripe', '2024-01-17 21:38:07', '2024-01-17 21:38:07'),
+(1205, 'fa-stripe-s', '2024-01-17 21:38:08', '2024-01-17 21:38:08'),
+(1206, 'fa-stroopwafel', '2024-01-17 21:38:08', '2024-01-17 21:38:08'),
+(1207, 'fa-studiovinari', '2024-01-17 21:38:08', '2024-01-17 21:38:08'),
+(1208, 'fa-stumbleupon', '2024-01-17 21:38:08', '2024-01-17 21:38:08'),
+(1209, 'fa-stumbleupon-circle', '2024-01-17 21:38:08', '2024-01-17 21:38:08'),
+(1210, 'fa-subscript', '2024-01-17 21:38:08', '2024-01-17 21:38:08'),
+(1211, 'fa-subway', '2024-01-17 21:38:08', '2024-01-17 21:38:08'),
+(1212, 'fa-suitcase', '2024-01-17 21:38:08', '2024-01-17 21:38:08'),
+(1213, 'fa-suitcase-rolling', '2024-01-17 21:38:08', '2024-01-17 21:38:08'),
+(1214, 'fa-sun', '2024-01-17 21:38:08', '2024-01-17 21:38:08'),
+(1215, 'fa-superpowers', '2024-01-17 21:38:08', '2024-01-17 21:38:08'),
+(1216, 'fa-superscript', '2024-01-17 21:38:08', '2024-01-17 21:38:08'),
+(1217, 'fa-supple', '2024-01-17 21:38:08', '2024-01-17 21:38:08'),
+(1218, 'fa-surprise', '2024-01-17 21:38:08', '2024-01-17 21:38:08'),
+(1219, 'fa-suse', '2024-01-17 21:38:08', '2024-01-17 21:38:08'),
+(1220, 'fa-swatchbook', '2024-01-17 21:38:08', '2024-01-17 21:38:08'),
+(1221, 'fa-swift', '2024-01-17 21:38:08', '2024-01-17 21:38:08'),
+(1222, 'fa-swimmer', '2024-01-17 21:38:08', '2024-01-17 21:38:08'),
+(1223, 'fa-swimming-pool', '2024-01-17 21:38:08', '2024-01-17 21:38:08'),
+(1224, 'fa-symfony', '2024-01-17 21:38:08', '2024-01-17 21:38:08'),
+(1225, 'fa-synagogue', '2024-01-17 21:38:08', '2024-01-17 21:38:08'),
+(1226, 'fa-sync', '2024-01-17 21:38:08', '2024-01-17 21:38:08'),
+(1227, 'fa-sync-alt', '2024-01-17 21:38:08', '2024-01-17 21:38:08'),
+(1228, 'fa-syringe', '2024-01-17 21:38:08', '2024-01-17 21:38:08'),
+(1229, 'fa-table', '2024-01-17 21:38:08', '2024-01-17 21:38:08'),
+(1230, 'fa-table-tennis', '2024-01-17 21:38:08', '2024-01-17 21:38:08'),
+(1231, 'fa-tablet', '2024-01-17 21:38:08', '2024-01-17 21:38:08'),
+(1232, 'fa-tablet-alt', '2024-01-17 21:38:08', '2024-01-17 21:38:08'),
+(1233, 'fa-tablets', '2024-01-17 21:38:08', '2024-01-17 21:38:08'),
+(1234, 'fa-tachometer-alt', '2024-01-17 21:38:08', '2024-01-17 21:38:08'),
+(1235, 'fa-tag', '2024-01-17 21:38:08', '2024-01-17 21:38:08'),
+(1236, 'fa-tags', '2024-01-17 21:38:08', '2024-01-17 21:38:08'),
+(1237, 'fa-tape', '2024-01-17 21:38:08', '2024-01-17 21:38:08'),
+(1238, 'fa-tasks', '2024-01-17 21:38:08', '2024-01-17 21:38:08'),
+(1239, 'fa-taxi', '2024-01-17 21:38:08', '2024-01-17 21:38:08'),
+(1240, 'fa-teamspeak', '2024-01-17 21:38:08', '2024-01-17 21:38:08'),
+(1241, 'fa-teeth', '2024-01-17 21:38:08', '2024-01-17 21:38:08'),
+(1242, 'fa-teeth-open', '2024-01-17 21:38:08', '2024-01-17 21:38:08'),
+(1243, 'fa-telegram', '2024-01-17 21:38:08', '2024-01-17 21:38:08'),
+(1244, 'fa-telegram-plane', '2024-01-17 21:38:08', '2024-01-17 21:38:08'),
+(1245, 'fa-temperature-high', '2024-01-17 21:38:08', '2024-01-17 21:38:08'),
+(1246, 'fa-temperature-low', '2024-01-17 21:38:08', '2024-01-17 21:38:08'),
+(1247, 'fa-tencent-weibo', '2024-01-17 21:38:08', '2024-01-17 21:38:08'),
+(1248, 'fa-tenge', '2024-01-17 21:38:08', '2024-01-17 21:38:08'),
+(1249, 'fa-terminal', '2024-01-17 21:38:08', '2024-01-17 21:38:08'),
+(1250, 'fa-text-height', '2024-01-17 21:38:08', '2024-01-17 21:38:08'),
+(1251, 'fa-text-width', '2024-01-17 21:38:08', '2024-01-17 21:38:08'),
+(1252, 'fa-th', '2024-01-17 21:38:08', '2024-01-17 21:38:08'),
+(1253, 'fa-th-large', '2024-01-17 21:38:08', '2024-01-17 21:38:08'),
+(1254, 'fa-th-list', '2024-01-17 21:38:08', '2024-01-17 21:38:08'),
+(1255, 'fa-the-red-yeti', '2024-01-17 21:38:08', '2024-01-17 21:38:08'),
+(1256, 'fa-theater-masks', '2024-01-17 21:38:08', '2024-01-17 21:38:08'),
+(1257, 'fa-themeco', '2024-01-17 21:38:08', '2024-01-17 21:38:08'),
+(1258, 'fa-themeisle', '2024-01-17 21:38:08', '2024-01-17 21:38:08'),
+(1259, 'fa-thermometer', '2024-01-17 21:38:08', '2024-01-17 21:38:08'),
+(1260, 'fa-thermometer-empty', '2024-01-17 21:38:08', '2024-01-17 21:38:08'),
+(1261, 'fa-thermometer-full', '2024-01-17 21:38:08', '2024-01-17 21:38:08'),
+(1262, 'fa-thermometer-half', '2024-01-17 21:38:08', '2024-01-17 21:38:08'),
+(1263, 'fa-thermometer-quarter', '2024-01-17 21:38:08', '2024-01-17 21:38:08'),
+(1264, 'fa-thermometer-three-quarters', '2024-01-17 21:38:08', '2024-01-17 21:38:08'),
+(1265, 'fa-think-peaks', '2024-01-17 21:38:08', '2024-01-17 21:38:08'),
+(1266, 'fa-thumbs-down', '2024-01-17 21:38:08', '2024-01-17 21:38:08'),
+(1267, 'fa-thumbs-up', '2024-01-17 21:38:08', '2024-01-17 21:38:08'),
+(1268, 'fa-thumbtack', '2024-01-17 21:38:08', '2024-01-17 21:38:08'),
+(1269, 'fa-ticket-alt', '2024-01-17 21:38:08', '2024-01-17 21:38:08'),
+(1270, 'fa-tiktok', '2024-01-17 21:38:08', '2024-01-17 21:38:08'),
+(1271, 'fa-times', '2024-01-17 21:38:08', '2024-01-17 21:38:08'),
+(1272, 'fa-times-circle', '2024-01-17 21:38:08', '2024-01-17 21:38:08'),
+(1273, 'fa-tint', '2024-01-17 21:38:08', '2024-01-17 21:38:08'),
+(1274, 'fa-tint-slash', '2024-01-17 21:38:08', '2024-01-17 21:38:08'),
+(1275, 'fa-tired', '2024-01-17 21:38:08', '2024-01-17 21:38:08'),
+(1276, 'fa-toggle-off', '2024-01-17 21:38:08', '2024-01-17 21:38:08'),
+(1277, 'fa-toggle-on', '2024-01-17 21:38:08', '2024-01-17 21:38:08'),
+(1278, 'fa-toilet', '2024-01-17 21:38:08', '2024-01-17 21:38:08'),
+(1279, 'fa-toilet-paper', '2024-01-17 21:38:08', '2024-01-17 21:38:08'),
+(1280, 'fa-toilet-paper-slash', '2024-01-17 21:38:08', '2024-01-17 21:38:08'),
+(1281, 'fa-toolbox', '2024-01-17 21:38:08', '2024-01-17 21:38:08'),
+(1282, 'fa-tools', '2024-01-17 21:38:08', '2024-01-17 21:38:08'),
+(1283, 'fa-tooth', '2024-01-17 21:38:08', '2024-01-17 21:38:08'),
+(1284, 'fa-torah', '2024-01-17 21:38:08', '2024-01-17 21:38:08'),
+(1285, 'fa-torii-gate', '2024-01-17 21:38:08', '2024-01-17 21:38:08'),
+(1286, 'fa-tractor', '2024-01-17 21:38:08', '2024-01-17 21:38:08'),
+(1287, 'fa-trade-federation', '2024-01-17 21:38:08', '2024-01-17 21:38:08'),
+(1288, 'fa-trademark', '2024-01-17 21:38:08', '2024-01-17 21:38:08'),
+(1289, 'fa-traffic-light', '2024-01-17 21:38:08', '2024-01-17 21:38:08'),
+(1290, 'fa-trailer', '2024-01-17 21:38:08', '2024-01-17 21:38:08'),
+(1291, 'fa-train', '2024-01-17 21:38:08', '2024-01-17 21:38:08'),
+(1292, 'fa-tram', '2024-01-17 21:38:08', '2024-01-17 21:38:08'),
+(1293, 'fa-transgender', '2024-01-17 21:38:08', '2024-01-17 21:38:08'),
+(1294, 'fa-transgender-alt', '2024-01-17 21:38:08', '2024-01-17 21:38:08'),
+(1295, 'fa-trash', '2024-01-17 21:38:08', '2024-01-17 21:38:08'),
+(1296, 'fa-trash-alt', '2024-01-17 21:38:08', '2024-01-17 21:38:08'),
+(1297, 'fa-trash-restore', '2024-01-17 21:38:08', '2024-01-17 21:38:08'),
+(1298, 'fa-trash-restore-alt', '2024-01-17 21:38:08', '2024-01-17 21:38:08'),
+(1299, 'fa-tree', '2024-01-17 21:38:08', '2024-01-17 21:38:08'),
+(1300, 'fa-trello', '2024-01-17 21:38:08', '2024-01-17 21:38:08'),
+(1301, 'fa-trophy', '2024-01-17 21:38:08', '2024-01-17 21:38:08'),
+(1302, 'fa-truck', '2024-01-17 21:38:08', '2024-01-17 21:38:08'),
+(1303, 'fa-truck-loading', '2024-01-17 21:38:08', '2024-01-17 21:38:08'),
+(1304, 'fa-truck-monster', '2024-01-17 21:38:08', '2024-01-17 21:38:08'),
+(1305, 'fa-truck-moving', '2024-01-17 21:38:08', '2024-01-17 21:38:08'),
+(1306, 'fa-truck-pickup', '2024-01-17 21:38:08', '2024-01-17 21:38:08'),
+(1307, 'fa-tshirt', '2024-01-17 21:38:08', '2024-01-17 21:38:08'),
+(1308, 'fa-tty', '2024-01-17 21:38:08', '2024-01-17 21:38:08'),
+(1309, 'fa-tumblr', '2024-01-17 21:38:08', '2024-01-17 21:38:08'),
+(1310, 'fa-tumblr-square', '2024-01-17 21:38:08', '2024-01-17 21:38:08'),
+(1311, 'fa-tv', '2024-01-17 21:38:08', '2024-01-17 21:38:08'),
+(1312, 'fa-twitch', '2024-01-17 21:38:08', '2024-01-17 21:38:08'),
+(1313, 'fa-twitter', '2024-01-17 21:38:08', '2024-01-17 21:38:08'),
+(1314, 'fa-twitter-square', '2024-01-17 21:38:08', '2024-01-17 21:38:08'),
+(1315, 'fa-typo3', '2024-01-17 21:38:08', '2024-01-17 21:38:08'),
+(1316, 'fa-uber', '2024-01-17 21:38:08', '2024-01-17 21:38:08'),
+(1317, 'fa-ubuntu', '2024-01-17 21:38:08', '2024-01-17 21:38:08'),
+(1318, 'fa-uikit', '2024-01-17 21:38:08', '2024-01-17 21:38:08'),
+(1319, 'fa-umbraco', '2024-01-17 21:38:08', '2024-01-17 21:38:08'),
+(1320, 'fa-umbrella', '2024-01-17 21:38:08', '2024-01-17 21:38:08'),
+(1321, 'fa-umbrella-beach', '2024-01-17 21:38:08', '2024-01-17 21:38:08'),
+(1322, 'fa-uncharted', '2024-01-17 21:38:08', '2024-01-17 21:38:08'),
+(1323, 'fa-underline', '2024-01-17 21:38:08', '2024-01-17 21:38:08'),
+(1324, 'fa-undo', '2024-01-17 21:38:08', '2024-01-17 21:38:08'),
+(1325, 'fa-undo-alt', '2024-01-17 21:38:08', '2024-01-17 21:38:08'),
+(1326, 'fa-uniregistry', '2024-01-17 21:38:08', '2024-01-17 21:38:08'),
+(1327, 'fa-unity', '2024-01-17 21:38:08', '2024-01-17 21:38:08'),
+(1328, 'fa-universal-access', '2024-01-17 21:38:08', '2024-01-17 21:38:08'),
+(1329, 'fa-university', '2024-01-17 21:38:08', '2024-01-17 21:38:08'),
+(1330, 'fa-unlink', '2024-01-17 21:38:08', '2024-01-17 21:38:08'),
+(1331, 'fa-unlock', '2024-01-17 21:38:08', '2024-01-17 21:38:08'),
+(1332, 'fa-unlock-alt', '2024-01-17 21:38:08', '2024-01-17 21:38:08'),
+(1333, 'fa-unsplash', '2024-01-17 21:38:08', '2024-01-17 21:38:08'),
+(1334, 'fa-untappd', '2024-01-17 21:38:08', '2024-01-17 21:38:08'),
+(1335, 'fa-upload', '2024-01-17 21:38:08', '2024-01-17 21:38:08'),
+(1336, 'fa-ups', '2024-01-17 21:38:08', '2024-01-17 21:38:08'),
+(1337, 'fa-usb', '2024-01-17 21:38:08', '2024-01-17 21:38:08'),
+(1338, 'fa-user', '2024-01-17 21:38:08', '2024-01-17 21:38:08'),
+(1339, 'fa-user-alt', '2024-01-17 21:38:08', '2024-01-17 21:38:08'),
+(1340, 'fa-user-alt-slash', '2024-01-17 21:38:08', '2024-01-17 21:38:08'),
+(1341, 'fa-user-astronaut', '2024-01-17 21:38:08', '2024-01-17 21:38:08'),
+(1342, 'fa-user-check', '2024-01-17 21:38:08', '2024-01-17 21:38:08'),
+(1343, 'fa-user-circle', '2024-01-17 21:38:08', '2024-01-17 21:38:08'),
+(1344, 'fa-user-clock', '2024-01-17 21:38:08', '2024-01-17 21:38:08'),
+(1345, 'fa-user-cog', '2024-01-17 21:38:08', '2024-01-17 21:38:08'),
+(1346, 'fa-user-edit', '2024-01-17 21:38:08', '2024-01-17 21:38:08'),
+(1347, 'fa-user-friends', '2024-01-17 21:38:08', '2024-01-17 21:38:08'),
+(1348, 'fa-user-graduate', '2024-01-17 21:38:08', '2024-01-17 21:38:08'),
+(1349, 'fa-user-injured', '2024-01-17 21:38:08', '2024-01-17 21:38:08'),
+(1350, 'fa-user-lock', '2024-01-17 21:38:08', '2024-01-17 21:38:08'),
+(1351, 'fa-user-md', '2024-01-17 21:38:08', '2024-01-17 21:38:08'),
+(1352, 'fa-user-minus', '2024-01-17 21:38:08', '2024-01-17 21:38:08'),
+(1353, 'fa-user-ninja', '2024-01-17 21:38:08', '2024-01-17 21:38:08'),
+(1354, 'fa-user-nurse', '2024-01-17 21:38:08', '2024-01-17 21:38:08'),
+(1355, 'fa-user-plus', '2024-01-17 21:38:08', '2024-01-17 21:38:08'),
+(1356, 'fa-user-secret', '2024-01-17 21:38:08', '2024-01-17 21:38:08'),
+(1357, 'fa-user-shield', '2024-01-17 21:38:08', '2024-01-17 21:38:08'),
+(1358, 'fa-user-slash', '2024-01-17 21:38:08', '2024-01-17 21:38:08'),
+(1359, 'fa-user-tag', '2024-01-17 21:38:08', '2024-01-17 21:38:08'),
+(1360, 'fa-user-tie', '2024-01-17 21:38:08', '2024-01-17 21:38:08'),
+(1361, 'fa-user-times', '2024-01-17 21:38:08', '2024-01-17 21:38:08'),
+(1362, 'fa-users', '2024-01-17 21:38:08', '2024-01-17 21:38:08'),
+(1363, 'fa-users-cog', '2024-01-17 21:38:08', '2024-01-17 21:38:08'),
+(1364, 'fa-users-slash', '2024-01-17 21:38:08', '2024-01-17 21:38:08'),
+(1365, 'fa-usps', '2024-01-17 21:38:08', '2024-01-17 21:38:08'),
+(1366, 'fa-ussunnah', '2024-01-17 21:38:08', '2024-01-17 21:38:08'),
+(1367, 'fa-utensil-spoon', '2024-01-17 21:38:08', '2024-01-17 21:38:08'),
+(1368, 'fa-utensils', '2024-01-17 21:38:08', '2024-01-17 21:38:08'),
+(1369, 'fa-vaadin', '2024-01-17 21:38:08', '2024-01-17 21:38:08'),
+(1370, 'fa-vector-square', '2024-01-17 21:38:08', '2024-01-17 21:38:08'),
+(1371, 'fa-venus', '2024-01-17 21:38:08', '2024-01-17 21:38:08'),
+(1372, 'fa-venus-double', '2024-01-17 21:38:08', '2024-01-17 21:38:08'),
+(1373, 'fa-venus-mars', '2024-01-17 21:38:08', '2024-01-17 21:38:08'),
+(1374, 'fa-vest', '2024-01-17 21:38:08', '2024-01-17 21:38:08'),
+(1375, 'fa-vest-patches', '2024-01-17 21:38:08', '2024-01-17 21:38:08'),
+(1376, 'fa-viacoin', '2024-01-17 21:38:08', '2024-01-17 21:38:08'),
+(1377, 'fa-viadeo', '2024-01-17 21:38:08', '2024-01-17 21:38:08'),
+(1378, 'fa-viadeo-square', '2024-01-17 21:38:08', '2024-01-17 21:38:08'),
+(1379, 'fa-vial', '2024-01-17 21:38:08', '2024-01-17 21:38:08'),
+(1380, 'fa-vials', '2024-01-17 21:38:08', '2024-01-17 21:38:08'),
+(1381, 'fa-viber', '2024-01-17 21:38:08', '2024-01-17 21:38:08'),
+(1382, 'fa-video', '2024-01-17 21:38:08', '2024-01-17 21:38:08'),
+(1383, 'fa-video-slash', '2024-01-17 21:38:08', '2024-01-17 21:38:08'),
+(1384, 'fa-vihara', '2024-01-17 21:38:08', '2024-01-17 21:38:08'),
+(1385, 'fa-vimeo', '2024-01-17 21:38:08', '2024-01-17 21:38:08'),
+(1386, 'fa-vimeo-square', '2024-01-17 21:38:08', '2024-01-17 21:38:08'),
+(1387, 'fa-vimeo-v', '2024-01-17 21:38:08', '2024-01-17 21:38:08'),
+(1388, 'fa-vine', '2024-01-17 21:38:08', '2024-01-17 21:38:08'),
+(1389, 'fa-virus', '2024-01-17 21:38:08', '2024-01-17 21:38:08'),
+(1390, 'fa-virus-slash', '2024-01-17 21:38:08', '2024-01-17 21:38:08'),
+(1391, 'fa-viruses', '2024-01-17 21:38:08', '2024-01-17 21:38:08'),
+(1392, 'fa-vk', '2024-01-17 21:38:08', '2024-01-17 21:38:08'),
+(1393, 'fa-vnv', '2024-01-17 21:38:08', '2024-01-17 21:38:08'),
+(1394, 'fa-voicemail', '2024-01-17 21:38:08', '2024-01-17 21:38:08'),
+(1395, 'fa-volleyball-ball', '2024-01-17 21:38:08', '2024-01-17 21:38:08'),
+(1396, 'fa-volume-down', '2024-01-17 21:38:08', '2024-01-17 21:38:08'),
+(1397, 'fa-volume-mute', '2024-01-17 21:38:08', '2024-01-17 21:38:08'),
+(1398, 'fa-volume-off', '2024-01-17 21:38:08', '2024-01-17 21:38:08'),
+(1399, 'fa-volume-up', '2024-01-17 21:38:08', '2024-01-17 21:38:08'),
+(1400, 'fa-vote-yea', '2024-01-17 21:38:08', '2024-01-17 21:38:08'),
+(1401, 'fa-vr-cardboard', '2024-01-17 21:38:08', '2024-01-17 21:38:08'),
+(1402, 'fa-vuejs', '2024-01-17 21:38:08', '2024-01-17 21:38:08'),
+(1403, 'fa-walking', '2024-01-17 21:38:08', '2024-01-17 21:38:08'),
+(1404, 'fa-wallet', '2024-01-17 21:38:08', '2024-01-17 21:38:08'),
+(1405, 'fa-warehouse', '2024-01-17 21:38:08', '2024-01-17 21:38:08'),
+(1406, 'fa-watchman-monitoring', '2024-01-17 21:38:08', '2024-01-17 21:38:08'),
+(1407, 'fa-water', '2024-01-17 21:38:08', '2024-01-17 21:38:08'),
+(1408, 'fa-wave-square', '2024-01-17 21:38:08', '2024-01-17 21:38:08'),
+(1409, 'fa-waze', '2024-01-17 21:38:08', '2024-01-17 21:38:08'),
+(1410, 'fa-weebly', '2024-01-17 21:38:08', '2024-01-17 21:38:08'),
+(1411, 'fa-weibo', '2024-01-17 21:38:08', '2024-01-17 21:38:08'),
+(1412, 'fa-weight', '2024-01-17 21:38:08', '2024-01-17 21:38:08'),
+(1413, 'fa-weight-hanging', '2024-01-17 21:38:08', '2024-01-17 21:38:08'),
+(1414, 'fa-weixin', '2024-01-17 21:38:08', '2024-01-17 21:38:08'),
+(1415, 'fa-whatsapp', '2024-01-17 21:38:08', '2024-01-17 21:38:08'),
+(1416, 'fa-whatsapp-square', '2024-01-17 21:38:08', '2024-01-17 21:38:08'),
+(1417, 'fa-wheelchair', '2024-01-17 21:38:08', '2024-01-17 21:38:08'),
+(1418, 'fa-whmcs', '2024-01-17 21:38:08', '2024-01-17 21:38:08'),
+(1419, 'fa-wifi', '2024-01-17 21:38:08', '2024-01-17 21:38:08'),
+(1420, 'fa-wikipedia-w', '2024-01-17 21:38:08', '2024-01-17 21:38:08'),
+(1421, 'fa-wind', '2024-01-17 21:38:08', '2024-01-17 21:38:08'),
+(1422, 'fa-window-close', '2024-01-17 21:38:08', '2024-01-17 21:38:08'),
+(1423, 'fa-window-maximize', '2024-01-17 21:38:08', '2024-01-17 21:38:08'),
+(1424, 'fa-window-minimize', '2024-01-17 21:38:08', '2024-01-17 21:38:08'),
+(1425, 'fa-window-restore', '2024-01-17 21:38:08', '2024-01-17 21:38:08'),
+(1426, 'fa-windows', '2024-01-17 21:38:08', '2024-01-17 21:38:08'),
+(1427, 'fa-wine-bottle', '2024-01-17 21:38:08', '2024-01-17 21:38:08'),
+(1428, 'fa-wine-glass', '2024-01-17 21:38:08', '2024-01-17 21:38:08'),
+(1429, 'fa-wine-glass-alt', '2024-01-17 21:38:08', '2024-01-17 21:38:08'),
+(1430, 'fa-wix', '2024-01-17 21:38:08', '2024-01-17 21:38:08'),
+(1431, 'fa-wizards-of-the-coast', '2024-01-17 21:38:08', '2024-01-17 21:38:08'),
+(1432, 'fa-wodu', '2024-01-17 21:38:08', '2024-01-17 21:38:08'),
+(1433, 'fa-wolf-pack-battalion', '2024-01-17 21:38:08', '2024-01-17 21:38:08'),
+(1434, 'fa-won-sign', '2024-01-17 21:38:08', '2024-01-17 21:38:08'),
+(1435, 'fa-wordpress', '2024-01-17 21:38:08', '2024-01-17 21:38:08'),
+(1436, 'fa-wordpress-simple', '2024-01-17 21:38:08', '2024-01-17 21:38:08'),
+(1437, 'fa-wpbeginner', '2024-01-17 21:38:08', '2024-01-17 21:38:08'),
+(1438, 'fa-wpexplorer', '2024-01-17 21:38:08', '2024-01-17 21:38:08'),
+(1439, 'fa-wpforms', '2024-01-17 21:38:08', '2024-01-17 21:38:08'),
+(1440, 'fa-wpressr', '2024-01-17 21:38:08', '2024-01-17 21:38:08'),
+(1441, 'fa-wrench', '2024-01-17 21:38:08', '2024-01-17 21:38:08'),
+(1442, 'fa-x-ray', '2024-01-17 21:38:08', '2024-01-17 21:38:08'),
+(1443, 'fa-xbox', '2024-01-17 21:38:08', '2024-01-17 21:38:08'),
+(1444, 'fa-xing', '2024-01-17 21:38:08', '2024-01-17 21:38:08'),
+(1445, 'fa-xing-square', '2024-01-17 21:38:08', '2024-01-17 21:38:08'),
+(1446, 'fa-y-combinator', '2024-01-17 21:38:08', '2024-01-17 21:38:08'),
+(1447, 'fa-yahoo', '2024-01-17 21:38:08', '2024-01-17 21:38:08'),
+(1448, 'fa-yammer', '2024-01-17 21:38:08', '2024-01-17 21:38:08'),
+(1449, 'fa-yandex', '2024-01-17 21:38:08', '2024-01-17 21:38:08'),
+(1450, 'fa-yandex-international', '2024-01-17 21:38:08', '2024-01-17 21:38:08'),
+(1451, 'fa-yarn', '2024-01-17 21:38:08', '2024-01-17 21:38:08'),
+(1452, 'fa-yelp', '2024-01-17 21:38:08', '2024-01-17 21:38:08'),
+(1453, 'fa-yen-sign', '2024-01-17 21:38:08', '2024-01-17 21:38:08'),
+(1454, 'fa-yin-yang', '2024-01-17 21:38:08', '2024-01-17 21:38:08'),
+(1455, 'fa-yoast', '2024-01-17 21:38:08', '2024-01-17 21:38:08'),
+(1456, 'fa-youtube', '2024-01-17 21:38:08', '2024-01-17 21:38:08'),
+(1457, 'fa-youtube-square', '2024-01-17 21:38:08', '2024-01-17 21:38:08'),
+(1458, 'fa-zhihu', '2024-01-17 21:38:08', '2024-01-17 21:38:08');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `jobs`
+--
+
+CREATE TABLE `jobs` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `queue` varchar(255) NOT NULL,
+  `payload` longtext NOT NULL,
+  `attempts` tinyint(3) UNSIGNED NOT NULL,
+  `reserved_at` int(10) UNSIGNED DEFAULT NULL,
+  `available_at` int(10) UNSIGNED NOT NULL,
+  `created_at` int(10) UNSIGNED NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `migrations`
+--
+
+CREATE TABLE `migrations` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `migration` varchar(255) NOT NULL,
+  `batch` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `migrations`
+--
+
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
+(1, '2014_10_12_000000_create_users_table', 1),
+(2, '2014_10_12_100000_create_password_resets_table', 1),
+(3, '2019_08_19_000000_create_failed_jobs_table', 1),
+(4, '2019_12_14_000001_create_personal_access_tokens_table', 1),
+(5, '2022_09_08_094911_create_icons_table', 1),
+(6, '2022_09_09_220749_create_tickets_table', 1),
+(7, '2022_09_10_205032_create_projects_table', 1),
+(8, '2022_09_10_205612_create_user_projects_table', 1),
+(9, '2022_09_10_205915_add_project_to_tickets', 1),
+(10, '2022_09_10_220736_add_role_to_users', 1),
+(11, '2022_09_11_142205_add_register_token_to_users', 1),
+(12, '2022_09_11_153059_add_soft_deletes_to_users', 1),
+(13, '2022_09_11_163751_create_favorite_projects_table', 1),
+(14, '2022_09_11_202013_add_type_to_tickets', 1),
+(15, '2022_09_12_090928_create_comments_table', 1),
+(16, '2022_09_12_095043_create_jobs_table', 1),
+(17, '2022_09_14_175349_create_notifications_table', 1),
+(18, '2022_09_15_142643_add_local_to_user', 1),
+(19, '2022_09_19_095513_create_ticket_statuses_table', 1),
+(20, '2022_09_19_111627_create_ticket_priorities_table', 1),
+(21, '2022_09_19_111633_create_ticket_types_table', 1),
+(22, '2022_09_19_122813_add_slug_to_ticket_statuses', 1),
+(23, '2022_09_19_122821_add_slug_to_ticket_types', 1),
+(24, '2022_09_19_122828_add_slug_to_ticket_priorities', 1),
+(25, '2022_09_19_143232_add_ticket_prefix_to_projects', 1),
+(26, '2022_09_19_144042_add_number_to_tickets', 1),
+(27, '2022_09_19_181148_create_activity_log_table', 1),
+(28, '2022_09_19_181149_add_event_column_to_activity_log_table', 1),
+(29, '2022_09_19_181150_add_batch_uuid_column_to_activity_log_table', 1),
+(30, '2022_09_19_181611_drop_user_projects', 1),
+(31, '2022_09_19_212320_create_chats_table', 1),
+(32, '2022_09_24_230950_create_companies_table', 1),
+(33, '2022_09_25_154331_create_permission_tables', 1),
+(34, '2022_09_25_163436_remove_role_from_users', 1),
+(35, '2022_09_25_165452_create_company_users_table', 1),
+(36, '2022_09_30_133603_add_company_id_to_projects', 1);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `model_has_permissions`
+--
+
+CREATE TABLE `model_has_permissions` (
+  `permission_id` bigint(20) UNSIGNED NOT NULL,
+  `model_type` varchar(255) NOT NULL,
+  `model_id` bigint(20) UNSIGNED NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `model_has_roles`
+--
+
+CREATE TABLE `model_has_roles` (
+  `role_id` bigint(20) UNSIGNED NOT NULL,
+  `model_type` varchar(255) NOT NULL,
+  `model_id` bigint(20) UNSIGNED NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `notifications`
+--
+
+CREATE TABLE `notifications` (
+  `id` char(36) NOT NULL,
+  `type` varchar(255) NOT NULL,
+  `notifiable_type` varchar(255) NOT NULL,
+  `notifiable_id` bigint(20) UNSIGNED NOT NULL,
+  `data` text NOT NULL,
+  `read_at` timestamp NULL DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `password_resets`
+--
+
+CREATE TABLE `password_resets` (
+  `email` varchar(255) NOT NULL,
+  `token` varchar(255) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `permissions`
+--
+
+CREATE TABLE `permissions` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `guard_name` varchar(255) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `permissions`
+--
+
+INSERT INTO `permissions` (`id`, `name`, `guard_name`, `created_at`, `updated_at`) VALUES
+(1, 'View all projects', 'web', '2024-01-17 21:38:08', '2024-01-17 21:38:08'),
+(2, 'Update all projects', 'web', '2024-01-17 21:38:08', '2024-01-17 21:38:08'),
+(3, 'Delete all projects', 'web', '2024-01-17 21:38:08', '2024-01-17 21:38:08'),
+(4, 'Create projects', 'web', '2024-01-17 21:38:08', '2024-01-17 21:38:08'),
+(5, 'View own projects', 'web', '2024-01-17 21:38:08', '2024-01-17 21:38:08'),
+(6, 'Update own projects', 'web', '2024-01-17 21:38:08', '2024-01-17 21:38:08'),
+(7, 'Delete own projects', 'web', '2024-01-17 21:38:08', '2024-01-17 21:38:08'),
+(8, 'View all tickets', 'web', '2024-01-17 21:38:08', '2024-01-17 21:38:08'),
+(9, 'Update all tickets', 'web', '2024-01-17 21:38:08', '2024-01-17 21:38:08'),
+(10, 'Delete all tickets', 'web', '2024-01-17 21:38:08', '2024-01-17 21:38:08'),
+(11, 'Create tickets', 'web', '2024-01-17 21:38:08', '2024-01-17 21:38:08'),
+(12, 'View own tickets', 'web', '2024-01-17 21:38:08', '2024-01-17 21:38:08'),
+(13, 'Update own tickets', 'web', '2024-01-17 21:38:08', '2024-01-17 21:38:08'),
+(14, 'Delete own tickets', 'web', '2024-01-17 21:38:08', '2024-01-17 21:38:08'),
+(15, 'Assign tickets', 'web', '2024-01-17 21:38:08', '2024-01-17 21:38:08'),
+(16, 'Change status tickets', 'web', '2024-01-17 21:38:08', '2024-01-17 21:38:08'),
+(17, 'Can view Analytics page', 'web', '2024-01-17 21:38:08', '2024-01-17 21:38:08'),
+(18, 'Can view Tickets page', 'web', '2024-01-17 21:38:08', '2024-01-17 21:38:08'),
+(19, 'Can view Kanban page', 'web', '2024-01-17 21:38:08', '2024-01-17 21:38:08'),
+(20, 'View all users', 'web', '2024-01-17 21:38:08', '2024-01-17 21:38:08'),
+(21, 'View company users', 'web', '2024-01-17 21:38:08', '2024-01-17 21:38:08'),
+(22, 'Create users', 'web', '2024-01-17 21:38:08', '2024-01-17 21:38:08'),
+(23, 'Update users', 'web', '2024-01-17 21:38:08', '2024-01-17 21:38:08'),
+(24, 'Delete users', 'web', '2024-01-17 21:38:08', '2024-01-17 21:38:08'),
+(25, 'Assign permissions', 'web', '2024-01-17 21:38:08', '2024-01-17 21:38:08'),
+(26, 'View all companies', 'web', '2024-01-17 21:38:08', '2024-01-17 21:38:08'),
+(27, 'View own companies', 'web', '2024-01-17 21:38:08', '2024-01-17 21:38:08'),
+(28, 'Create companies', 'web', '2024-01-17 21:38:08', '2024-01-17 21:38:08'),
+(29, 'Update companies', 'web', '2024-01-17 21:38:08', '2024-01-17 21:38:08'),
+(30, 'Delete companies', 'web', '2024-01-17 21:38:08', '2024-01-17 21:38:08'),
+(31, 'Manage ticket statuses', 'web', '2024-01-17 21:38:08', '2024-01-17 21:38:08'),
+(32, 'Manage ticket priorities', 'web', '2024-01-17 21:38:08', '2024-01-17 21:38:08'),
+(33, 'Manage ticket types', 'web', '2024-01-17 21:38:08', '2024-01-17 21:38:08'),
+(34, 'View activity log', 'web', '2024-01-17 21:38:08', '2024-01-17 21:38:08'),
+(35, 'Manage user roles', 'web', '2024-01-17 21:38:08', '2024-01-17 21:38:08'),
+(36, 'Create user roles', 'web', '2024-01-17 21:38:08', '2024-01-17 21:38:08'),
+(37, 'Update user roles', 'web', '2024-01-17 21:38:08', '2024-01-17 21:38:08'),
+(38, 'Delete user roles', 'web', '2024-01-17 21:38:08', '2024-01-17 21:38:08');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `personal_access_tokens`
+--
+
+CREATE TABLE `personal_access_tokens` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `tokenable_type` varchar(255) NOT NULL,
+  `tokenable_id` bigint(20) UNSIGNED NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `token` varchar(64) NOT NULL,
+  `abilities` text DEFAULT NULL,
+  `last_used_at` timestamp NULL DEFAULT NULL,
+  `expires_at` timestamp NULL DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `projects`
+--
+
+CREATE TABLE `projects` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `description` longtext DEFAULT NULL,
+  `owner_id` bigint(20) UNSIGNED NOT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `ticket_prefix` varchar(4) NOT NULL,
+  `company_id` bigint(20) UNSIGNED DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `roles`
+--
+
+CREATE TABLE `roles` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `guard_name` varchar(255) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `role_has_permissions`
+--
+
+CREATE TABLE `role_has_permissions` (
+  `permission_id` bigint(20) UNSIGNED NOT NULL,
+  `role_id` bigint(20) UNSIGNED NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tickets`
+--
+
+CREATE TABLE `tickets` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `title` varchar(255) NOT NULL,
+  `content` longtext NOT NULL,
+  `status` varchar(255) NOT NULL,
+  `priority` varchar(255) NOT NULL,
+  `owner_id` bigint(20) UNSIGNED NOT NULL,
+  `responsible_id` bigint(20) UNSIGNED DEFAULT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `project_id` bigint(20) UNSIGNED NOT NULL,
+  `type` varchar(255) NOT NULL,
+  `number` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `ticket_priorities`
+--
+
+CREATE TABLE `ticket_priorities` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `title` varchar(255) NOT NULL,
+  `text_color` varchar(255) NOT NULL,
+  `bg_color` varchar(255) NOT NULL,
+  `icon` varchar(255) NOT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `slug` varchar(500) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `ticket_statuses`
+--
+
+CREATE TABLE `ticket_statuses` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `title` varchar(255) NOT NULL,
+  `text_color` varchar(255) NOT NULL,
+  `bg_color` varchar(255) NOT NULL,
+  `default` tinyint(1) NOT NULL DEFAULT 0,
+  `deleted_at` timestamp NULL DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `slug` varchar(500) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `ticket_types`
+--
+
+CREATE TABLE `ticket_types` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `title` varchar(255) NOT NULL,
+  `text_color` varchar(255) NOT NULL,
+  `bg_color` varchar(255) NOT NULL,
+  `icon` varchar(255) NOT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `slug` varchar(500) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `users`
+--
+
+CREATE TABLE `users` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `email` varchar(255) NOT NULL,
+  `email_verified_at` timestamp NULL DEFAULT NULL,
+  `password` varchar(255) NOT NULL,
+  `remember_token` varchar(100) DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `register_token` char(36) DEFAULT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL,
+  `locale` varchar(255) NOT NULL DEFAULT 'en'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `users`
+--
+
+INSERT INTO `users` (`id`, `name`, `email`, `email_verified_at`, `password`, `remember_token`, `created_at`, `updated_at`, `register_token`, `deleted_at`, `locale`) VALUES
+(1, 'Dark Vador', 'admin@gmail.com', NULL, '$2y$10$Xl4N2ELR2fkx04l1kqF3ZeQe0Pf1aeUnwjsa4GKr8kyUbgwCYN9B2', 'OHEZUT3JTudVaM98f52WUSEIBYt2iFVe4x3fIIh5ppc6mbLQkfcvdd7g7Rcq', '2022-09-09 13:04:18', '2022-09-12 07:43:54', NULL, NULL, 'en'),
+(2, 'John DOEEmployee', 'employee@gmail.com', NULL, '$2y$10$XQa0DXci4w9moztse2wSReRSwQzB.A1Gz348ZoY3nNzyKNLJYP7lS', NULL, '2022-09-11 07:37:09', '2022-09-12 04:39:04', NULL, NULL, 'en'),
+(3, 'Jane DOECustomer', 'customer@gmail.com', NULL, '$2y$10$ybe.9QDgjFM5fNTafDV2U.kkRCW7Curz8i44PuJQ7H7wfpLj6hMrS', NULL, '2022-09-11 07:48:37', '2022-09-11 08:08:21', NULL, NULL, 'en');
+
+--
+-- Indexes for dumped tables
+--
+
+--
+-- Indexes for table `activity_log`
+--
+ALTER TABLE `activity_log`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `subject` (`subject_type`,`subject_id`),
+  ADD KEY `causer` (`causer_type`,`causer_id`),
+  ADD KEY `activity_log_log_name_index` (`log_name`);
+
+--
+-- Indexes for table `chats`
+--
+ALTER TABLE `chats`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `chats_ticket_id_foreign` (`ticket_id`),
+  ADD KEY `chats_user_id_foreign` (`user_id`);
+
+--
+-- Indexes for table `comments`
+--
+ALTER TABLE `comments`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `comments_owner_id_foreign` (`owner_id`),
+  ADD KEY `comments_ticket_id_foreign` (`ticket_id`);
+
+--
+-- Indexes for table `companies`
+--
+ALTER TABLE `companies`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `companies_responsible_id_foreign` (`responsible_id`);
+
+--
+-- Indexes for table `company_users`
+--
+ALTER TABLE `company_users`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `company_users_user_id_foreign` (`user_id`),
+  ADD KEY `company_users_company_id_foreign` (`company_id`);
+
+--
+-- Indexes for table `failed_jobs`
+--
+ALTER TABLE `failed_jobs`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `failed_jobs_uuid_unique` (`uuid`);
+
+--
+-- Indexes for table `favorite_projects`
+--
+ALTER TABLE `favorite_projects`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `favorite_projects_user_id_foreign` (`user_id`),
+  ADD KEY `favorite_projects_project_id_foreign` (`project_id`);
+
+--
+-- Indexes for table `icons`
+--
+ALTER TABLE `icons`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `jobs`
+--
+ALTER TABLE `jobs`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `jobs_queue_index` (`queue`);
+
+--
+-- Indexes for table `migrations`
+--
+ALTER TABLE `migrations`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `model_has_permissions`
+--
+ALTER TABLE `model_has_permissions`
+  ADD PRIMARY KEY (`permission_id`,`model_id`,`model_type`),
+  ADD KEY `model_has_permissions_model_id_model_type_index` (`model_id`,`model_type`);
+
+--
+-- Indexes for table `model_has_roles`
+--
+ALTER TABLE `model_has_roles`
+  ADD PRIMARY KEY (`role_id`,`model_id`,`model_type`),
+  ADD KEY `model_has_roles_model_id_model_type_index` (`model_id`,`model_type`);
+
+--
+-- Indexes for table `notifications`
+--
+ALTER TABLE `notifications`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `notifications_notifiable_type_notifiable_id_index` (`notifiable_type`,`notifiable_id`);
+
+--
+-- Indexes for table `password_resets`
+--
+ALTER TABLE `password_resets`
+  ADD KEY `password_resets_email_index` (`email`);
+
+--
+-- Indexes for table `permissions`
+--
+ALTER TABLE `permissions`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `permissions_name_guard_name_unique` (`name`,`guard_name`);
+
+--
+-- Indexes for table `personal_access_tokens`
+--
+ALTER TABLE `personal_access_tokens`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `personal_access_tokens_token_unique` (`token`),
+  ADD KEY `personal_access_tokens_tokenable_type_tokenable_id_index` (`tokenable_type`,`tokenable_id`);
+
+--
+-- Indexes for table `projects`
+--
+ALTER TABLE `projects`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `projects_owner_id_foreign` (`owner_id`),
+  ADD KEY `projects_company_id_foreign` (`company_id`);
+
+--
+-- Indexes for table `roles`
+--
+ALTER TABLE `roles`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `roles_name_guard_name_unique` (`name`,`guard_name`);
+
+--
+-- Indexes for table `role_has_permissions`
+--
+ALTER TABLE `role_has_permissions`
+  ADD PRIMARY KEY (`permission_id`,`role_id`),
+  ADD KEY `role_has_permissions_role_id_foreign` (`role_id`);
+
+--
+-- Indexes for table `tickets`
+--
+ALTER TABLE `tickets`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `tickets_owner_id_foreign` (`owner_id`),
+  ADD KEY `tickets_responsible_id_foreign` (`responsible_id`),
+  ADD KEY `tickets_project_id_foreign` (`project_id`);
+
+--
+-- Indexes for table `ticket_priorities`
+--
+ALTER TABLE `ticket_priorities`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `ticket_statuses`
+--
+ALTER TABLE `ticket_statuses`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `ticket_types`
+--
+ALTER TABLE `ticket_types`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `users`
+--
+ALTER TABLE `users`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `users_email_unique` (`email`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `activity_log`
+--
+ALTER TABLE `activity_log`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `chats`
+--
+ALTER TABLE `chats`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `comments`
+--
+ALTER TABLE `comments`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `companies`
+--
+ALTER TABLE `companies`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `company_users`
+--
+ALTER TABLE `company_users`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `failed_jobs`
+--
+ALTER TABLE `failed_jobs`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `favorite_projects`
+--
+ALTER TABLE `favorite_projects`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `icons`
+--
+ALTER TABLE `icons`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1459;
+
+--
+-- AUTO_INCREMENT for table `jobs`
+--
+ALTER TABLE `jobs`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `migrations`
+--
+ALTER TABLE `migrations`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
+
+--
+-- AUTO_INCREMENT for table `permissions`
+--
+ALTER TABLE `permissions`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
+
+--
+-- AUTO_INCREMENT for table `personal_access_tokens`
+--
+ALTER TABLE `personal_access_tokens`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `projects`
+--
+ALTER TABLE `projects`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `roles`
+--
+ALTER TABLE `roles`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `tickets`
+--
+ALTER TABLE `tickets`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `ticket_priorities`
+--
+ALTER TABLE `ticket_priorities`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `ticket_statuses`
+--
+ALTER TABLE `ticket_statuses`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `ticket_types`
+--
+ALTER TABLE `ticket_types`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `users`
+--
+ALTER TABLE `users`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- Constraints for dumped tables
+--
+
+--
+-- Constraints for table `chats`
+--
+ALTER TABLE `chats`
+  ADD CONSTRAINT `chats_ticket_id_foreign` FOREIGN KEY (`ticket_id`) REFERENCES `tickets` (`id`),
+  ADD CONSTRAINT `chats_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`);
+
+--
+-- Constraints for table `comments`
+--
+ALTER TABLE `comments`
+  ADD CONSTRAINT `comments_owner_id_foreign` FOREIGN KEY (`owner_id`) REFERENCES `users` (`id`),
+  ADD CONSTRAINT `comments_ticket_id_foreign` FOREIGN KEY (`ticket_id`) REFERENCES `tickets` (`id`);
+
+--
+-- Constraints for table `companies`
+--
+ALTER TABLE `companies`
+  ADD CONSTRAINT `companies_responsible_id_foreign` FOREIGN KEY (`responsible_id`) REFERENCES `users` (`id`);
+
+--
+-- Constraints for table `company_users`
+--
+ALTER TABLE `company_users`
+  ADD CONSTRAINT `company_users_company_id_foreign` FOREIGN KEY (`company_id`) REFERENCES `companies` (`id`),
+  ADD CONSTRAINT `company_users_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`);
+
+--
+-- Constraints for table `favorite_projects`
+--
+ALTER TABLE `favorite_projects`
+  ADD CONSTRAINT `favorite_projects_project_id_foreign` FOREIGN KEY (`project_id`) REFERENCES `projects` (`id`),
+  ADD CONSTRAINT `favorite_projects_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`);
+
+--
+-- Constraints for table `model_has_permissions`
+--
+ALTER TABLE `model_has_permissions`
+  ADD CONSTRAINT `model_has_permissions_permission_id_foreign` FOREIGN KEY (`permission_id`) REFERENCES `permissions` (`id`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `model_has_roles`
+--
+ALTER TABLE `model_has_roles`
+  ADD CONSTRAINT `model_has_roles_role_id_foreign` FOREIGN KEY (`role_id`) REFERENCES `roles` (`id`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `projects`
+--
+ALTER TABLE `projects`
+  ADD CONSTRAINT `projects_company_id_foreign` FOREIGN KEY (`company_id`) REFERENCES `companies` (`id`),
+  ADD CONSTRAINT `projects_owner_id_foreign` FOREIGN KEY (`owner_id`) REFERENCES `users` (`id`);
+
+--
+-- Constraints for table `role_has_permissions`
+--
+ALTER TABLE `role_has_permissions`
+  ADD CONSTRAINT `role_has_permissions_permission_id_foreign` FOREIGN KEY (`permission_id`) REFERENCES `permissions` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `role_has_permissions_role_id_foreign` FOREIGN KEY (`role_id`) REFERENCES `roles` (`id`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `tickets`
+--
+ALTER TABLE `tickets`
+  ADD CONSTRAINT `tickets_owner_id_foreign` FOREIGN KEY (`owner_id`) REFERENCES `users` (`id`),
+  ADD CONSTRAINT `tickets_project_id_foreign` FOREIGN KEY (`project_id`) REFERENCES `projects` (`id`),
+  ADD CONSTRAINT `tickets_responsible_id_foreign` FOREIGN KEY (`responsible_id`) REFERENCES `users` (`id`);
+COMMIT;
+
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
