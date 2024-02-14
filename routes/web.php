@@ -28,13 +28,13 @@ Route::middleware(['guest', 'set_locale'])
         // Recover password
         Route::get(
             '/auth/recover-password/{token}',
-            fn(string $token) => view('auth.recover-password', compact('token'))
+            fn (string $token) => view('auth.recover-password', compact('token'))
         )->name('password.reset');
 
         // Account activation
         Route::get(
             '/auth/activate-account/{user:register_token}',
-            fn(User $user) => view('auth.activate-account', compact('user'))
+            fn (User $user) => view('auth.activate-account', compact('user'))
         )->name('auth.activate-account');
     });
 Route::middleware(['auth', 'set_locale'])
@@ -53,8 +53,8 @@ Route::middleware(['auth', 'set_locale'])
         // Tickets
         Route::view('/tickets', 'tickets')->name('tickets');
         Route::get(
-            '/tickets/{ticket:id}/{slug}',
-            fn(Ticket $ticket) => view('ticket-details', compact('ticket'))
+            '/tickets/{ticket:id}',
+            fn (Ticket $ticket) => view('ticket-details', compact('ticket'))
         )->name('tickets.details')->middleware('can_access_ticket');
         Route::get('/tickets/{number}', TicketNumberController::class)->name('tickets.number');
 

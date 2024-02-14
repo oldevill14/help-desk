@@ -116,9 +116,9 @@ class TicketsDialog extends Component implements HasForms
                     ->color('success')
                     ->button()
                     ->close()
-                    ->url(fn() => route('tickets.details', [
+                    ->url(fn () => route('tickets.details', [
                         'ticket' => $ticket,
-                        'slug' => Str::slug($ticket->title)
+                        // 'slug' => Str::slug($ticket->title)
                     ]))
             ])
             ->send();

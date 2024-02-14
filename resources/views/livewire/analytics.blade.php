@@ -57,7 +57,7 @@
                                                                 'tickets.details',
                                                                 [
                                                                     'ticket' => $ticket,
-                                                                    'slug' => Str::slug($ticket->title)
+                                                                    {{-- 'slug' => Str::slug($ticket->title) --}}
                                                                 ]
                                                             )
                                                         }}"
@@ -246,7 +246,7 @@
                                                                 'tickets.details',
                                                                 [
                                                                     'ticket' => $ticket,
-                                                                    'slug' => Str::slug($ticket->title)
+                                                                    {{-- 'slug' => Str::slug($ticket->title) --}}
                                                                     ]
                                                                 )
                                                      }}"

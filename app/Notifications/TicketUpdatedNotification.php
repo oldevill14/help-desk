@@ -67,7 +67,7 @@ class TicketUpdatedNotification extends Notification implements ShouldQueue
                     'tickets.details',
                     [
                         'ticket' => $this->ticket,
-                        'slug' => Str::slug($this->ticket->title)
+                        // 'slug' => Str::slug($this->ticket->title)
                     ]
                 )
             )

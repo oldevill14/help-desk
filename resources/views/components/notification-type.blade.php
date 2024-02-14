@@ -10,7 +10,7 @@
                     'tickets.details',
                     [
                         'ticket' => $notification->data['ticket']['id'],
-                        'slug' => Str::slug($notification->data['ticket']['title'])
+                        {{-- 'slug' => Str::slug($notification->data['ticket']['title']) --}}
                     ]
                 ) }}"
                class="text-gray-500 hover:text-primary-500 text-xs flex flex-row justify-start items-center gap-2"
@@ -30,7 +30,7 @@
                             'tickets.details',
                             [
                                 'ticket' => $notification->data['ticket']['id'],
-                                'slug' => Str::slug($notification->data['ticket']['title'])
+                                {{-- 'slug' => Str::slug($notification->data['ticket']['title']) --}}
                             ]
                         ) }}"
                class="text-gray-500 hover:text-primary-500 text-xs flex flex-row justify-start items-center gap-2">
@@ -77,7 +77,7 @@
                             'tickets.details',
                             [
                                 'ticket' => $notification->data['ticket']['id'],
-                                'slug' => Str::slug($notification->data['ticket']['title'])
+                                {{-- 'slug' => Str::slug($notification->data['ticket']['title']) --}}
                             ]
                         ) }}"
                class="text-gray-500 hover:text-primary-500 text-xs flex flex-row justify-start items-center gap-2"

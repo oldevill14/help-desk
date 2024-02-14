@@ -100,7 +100,7 @@
                                         'tickets.details',
                                         [
                                             'ticket' => $ticket,
-                                            'slug' => Str::slug($ticket->title)
+                                            {{-- 'slug' => Str::slug($ticket->title) --}}
                                         ]
                                     ) }}"
                                class="text-lg font-medium text-gray-700 hover:underline">
